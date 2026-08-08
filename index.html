@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Build Your Building | Nordic Garden Buildings</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+ --ink:#12211f; --ink-2:#4a5a57; --line:#dfe4e2; --line-2:#eef1f0;
+ --bg:#f6f7f6; --card:#fff; --accent:#143641; --accent-2:#1d5464;
+ --gold:#b4883b; --ok:#2e7d54; --save:#8c4a1f; --radius:10px;
+ --shadow:0 1px 2px rgba(0,0,0,.05),0 8px 24px rgba(18,33,31,.06);
+}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
+ color:var(--ink);background:var(--bg);line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+header.hd{background:var(--accent);color:#fff;padding:26px 0 24px}
+header.hd h1{font-size:25px;font-weight:600;letter-spacing:-.02em}
+header.hd p{opacity:.82;font-size:14px;margin-top:5px}
+.badge{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);
+ padding:3px 9px;border-radius:20px;font-size:11px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:10px}
+.layout{display:grid;grid-template-columns:1fr 372px;gap:26px;align-items:start;padding:26px 0 60px}
+@media(max-width:980px){.layout{grid-template-columns:1fr}}
+.step{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+ padding:22px;margin-bottom:16px;box-shadow:var(--shadow)}
+.step.locked{opacity:.45;pointer-events:none;filter:saturate(.4)}
+.step h2{font-size:16px;font-weight:600;display:flex;align-items:center;gap:10px;margin-bottom:3px}
+.num{background:var(--accent);color:#fff;width:23px;height:23px;border-radius:50%;
+ display:grid;place-items:center;font-size:12px;font-weight:600;flex:none}
+.hint{font-size:13px;color:var(--ink-2);margin:0 0 15px 33px}
+@media(max-width:600px){.hint{margin-left:0}}
+.grid{display:grid;gap:10px}
+.g-range{grid-template-columns:repeat(auto-fill,minmax(228px,1fr))}
+.g-size{grid-template-columns:repeat(auto-fill,minmax(166px,1fr))}
+.g-col{grid-template-columns:repeat(auto-fill,minmax(118px,1fr))}
+.g-roof{grid-template-columns:repeat(auto-fill,minmax(178px,1fr))}
+.opt{border:1.5px solid var(--line);background:#fff;border-radius:8px;padding:12px;cursor:pointer;
+ text-align:left;font:inherit;color:inherit;transition:.13s;position:relative;display:block;width:100%}
+.opt:hover{border-color:var(--accent-2);transform:translateY(-1px);box-shadow:var(--shadow)}
+.opt[aria-pressed="true"]{border-color:var(--accent);border-width:1.5px;
+ box-shadow:0 0 0 3px rgba(20,54,65,.11);background:#fbfdfd}
+.opt[aria-pressed="true"]::after{content:"✓";position:absolute;top:9px;right:10px;color:var(--accent);
+ font-weight:700;font-size:13px}
+.opt .im,.opt .t,.opt .s,.opt .p,.sw{display:block}
+.opt .t{font-weight:600;font-size:14px;margin-bottom:2px;padding-right:16px}
+.opt .s{font-size:12px;color:var(--ink-2);line-height:1.45}
+.opt .p{font-size:12.5px;font-weight:600;color:var(--accent-2);margin-top:7px}
+.opt .p.free{color:var(--ok)}
+.tag{display:inline-block;font-size:10px;letter-spacing:.05em;text-transform:uppercase;
+ background:var(--line-2);color:var(--ink-2);padding:2px 6px;border-radius:3px;margin-bottom:6px;font-weight:600}
+/* Each swatch is simply the colour it names. Nordic's own finish photo sits on top
+   where it loads; if it doesn't, the flat colour underneath still reads correctly. */
+.sw{width:100%;height:52px;border-radius:5px;margin-bottom:9px;border:1px solid rgba(0,0,0,.16);
+ background-size:cover;background-position:center;box-shadow:inset 0 -1px 3px rgba(0,0,0,.10)}
+.check{display:flex;gap:11px;align-items:flex-start;border:1.5px solid var(--line);border-radius:8px;
+ padding:12px;cursor:pointer;transition:.13s;background:#fff}
+.check:hover{border-color:var(--accent-2)}
+.check.on{border-color:var(--accent);background:#fbfdfd;box-shadow:0 0 0 3px rgba(20,54,65,.09)}
+.check input{margin-top:2px;accent-color:var(--accent);width:15px;height:15px;flex:none}
+.check .t,.check .s,.check .p{display:block}
+.check .t{font-weight:600;font-size:14px}
+.check .s{font-size:12px;color:var(--ink-2);margin-top:1px}
+.check .p{font-size:13px;font-weight:600;color:var(--accent-2);margin-top:4px}
+.qty{display:flex;align-items:center;gap:8px;margin-top:8px}
+.qty button{width:26px;height:26px;border:1px solid var(--line);background:#fff;border-radius:5px;
+ cursor:pointer;font-size:15px;line-height:1;color:var(--ink)}
+.qty button:hover{border-color:var(--accent);background:var(--line-2)}
+.qty span{min-width:20px;text-align:center;font-weight:600;font-size:13px}
+.pkg{border:1.5px solid var(--gold);background:linear-gradient(180deg,#fffdf7,#fff9ee);
+ border-radius:8px;padding:14px;margin-top:14px}
+.pkg .h{font-weight:700;font-size:13.5px;color:var(--save);display:flex;align-items:center;gap:6px}
+.pkg .b{font-size:12.5px;color:var(--ink-2);margin-top:5px}
+.pkg button{margin-top:10px;background:var(--gold);color:#fff;border:0;padding:8px 14px;
+ border-radius:6px;font-weight:600;font-size:13px;cursor:pointer;font-family:inherit}
+.pkg button:hover{background:#9d7431}
+/* summary */
+.sum{position:sticky;top:16px;background:var(--card);border:1px solid var(--line);
+ border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+@media(max-width:980px){.sum{position:static}}
+.sum .top{background:var(--accent);color:#fff;padding:16px 18px}
+.sum .top h3{font-size:14px;font-weight:600}
+.sum .top p{font-size:12px;opacity:.8;margin-top:2px}
+.sum .body{padding:16px 18px;max-height:47vh;overflow-y:auto}
+@media(max-width:980px){.sum .body{max-height:none}}
+.li{display:flex;justify-content:space-between;gap:12px;font-size:13px;padding:7px 0;
+ border-bottom:1px dashed var(--line-2)}
+.li:last-child{border:0}
+.li .l{color:var(--ink-2)}
+.li .l b{color:var(--ink);font-weight:600;display:block}
+.li .v{font-weight:600;white-space:nowrap}
+.li .v.inc{color:var(--ok);font-weight:600}
+.strike{text-decoration:line-through;opacity:.5;font-weight:400}
+.sum .foot{border-top:1px solid var(--line);padding:16px 18px;background:#fbfcfb}
+.tot{display:flex;justify-content:space-between;align-items:baseline}
+.tot .lb{font-size:13px;color:var(--ink-2);font-weight:600}
+.tot .v{font-size:27px;font-weight:700;letter-spacing:-.02em}
+.rrp{text-align:right;font-size:12.5px;color:var(--ink-2);margin-top:3px}
+.saving{background:#f3f8f4;border:1px solid #cfe4d6;color:var(--ok);border-radius:6px;
+ padding:7px 10px;font-size:12.5px;font-weight:600;margin-top:10px;text-align:center}
+.vat{font-size:11px;color:var(--ink-2);margin-top:9px;text-align:center;line-height:1.5}
+.cta{width:100%;background:var(--accent);color:#fff;border:0;padding:13px;border-radius:7px;
+ font-weight:600;font-size:14.5px;cursor:pointer;margin-top:12px;font-family:inherit}
+.cta:hover{background:var(--accent-2)}
+.cta:disabled{background:#c3cbc9;cursor:not-allowed}
+.cta.ghost{background:#fff;color:var(--accent);border:1.5px solid var(--line);margin-top:8px;font-size:13px;padding:10px}
+.cta.ghost:hover{border-color:var(--accent);background:var(--line-2)}
+.empty{color:var(--ink-2);font-size:13px;text-align:center;padding:22px 6px}
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(10,20,19,.6);display:none;place-items:center;
+ z-index:99;padding:20px;overflow-y:auto}
+.modal.on{display:grid}
+.mbox{background:#fff;border-radius:12px;max-width:560px;width:100%;padding:26px;position:relative;margin:auto}
+.mbox h3{font-size:19px;margin-bottom:5px}
+.mbox p.sb{font-size:13.5px;color:var(--ink-2);margin-bottom:16px}
+.close{position:absolute;top:14px;right:16px;background:none;border:0;font-size:22px;cursor:pointer;color:var(--ink-2);line-height:1}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:11px}
+@media(max-width:520px){.frow{grid-template-columns:1fr}}
+.fld label{display:block;font-size:12px;font-weight:600;margin-bottom:4px;color:var(--ink-2)}
+.fld input,.fld select,.fld textarea{width:100%;border:1px solid var(--line);border-radius:6px;
+ padding:9px 10px;font:inherit;font-size:14px;background:#fff;color:var(--ink)}
+.fld input:focus,.fld select:focus,.fld textarea:focus{outline:2px solid var(--accent-2);outline-offset:-1px;border-color:var(--accent)}
+.specbox{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:13px;
+ margin-bottom:15px;font-size:12.5px;max-height:170px;overflow-y:auto}
+.specbox .li{padding:4px 0}
+.done{text-align:center;padding:14px 0}
+.done .tick{width:52px;height:52px;border-radius:50%;background:#eaf5ee;color:var(--ok);
+ display:grid;place-items:center;font-size:27px;margin:0 auto 13px}
+
+.opt .im{width:100%;aspect-ratio:4/3;object-fit:contain;background:#eff2f1;border-radius:6px;
+ margin-bottom:9px;display:block;padding:4px}
+.heroWrap{position:relative;margin-bottom:15px;border-radius:8px;overflow:hidden;
+ background:linear-gradient(170deg,#f0f3f2,#e2e8e6);border:1px solid var(--line)}
+.hero{width:100%;aspect-ratio:16/10;object-fit:contain;display:block;padding:8px}
+.heroCap{position:absolute;left:10px;bottom:10px;background:rgba(18,33,31,.74);color:#fff;
+ font-size:11px;padding:4px 9px;border-radius:20px;backdrop-filter:blur(3px)}
+.sumHero{width:100%;aspect-ratio:16/9;object-fit:contain;display:block;padding:6px;
+ background:linear-gradient(170deg,#f0f3f2,#e2e8e6);border-bottom:1px solid var(--line)}
+
+.pv{position:relative;border-bottom:1px solid var(--line);background:#eef3f2}
+.pvCap{position:absolute;left:9px;bottom:8px;background:rgba(18,33,31,.72);color:#fff;font-size:10.5px;
+ padding:3px 8px;border-radius:20px;backdrop-filter:blur(3px)}
+@media print{.heroWrap{break-inside:avoid}}
+@media print{
+ header.hd,.step,.cta,.modal,.pkg button{display:none!important}
+ .layout{grid-template-columns:1fr;padding:0}
+ .sum{box-shadow:none;border:1px solid #999}
+ .sum .body{max-height:none;overflow:visible}
+}
+
+.usp{background:#0f2b34;color:#fff;border-top:1px solid rgba(255,255,255,.08)}
+.usp .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;padding:11px 20px;justify-content:center}
+.usp span{font-size:12px;font-weight:600;letter-spacing:.01em;display:inline-flex;align-items:center;gap:6px;opacity:.95}
+.usp span b{color:#e9c98a;font-weight:700}
+.tag.pop{background:#fbf1dd;color:#8c4a1f}
+.guar{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+.guar span{font-size:10.5px;color:var(--ink-2);background:var(--line-2);padding:3px 8px;border-radius:20px;font-weight:600}
+.step.chosen{padding:12px 16px}
+.chosenbar{display:flex;align-items:center;gap:12px}
+.chosenbar img{width:66px;height:50px;object-fit:cover;border-radius:6px;flex:none;background:#eef2f1}
+.chosenbar .cb{flex:1}
+.chosenbar .cn{font-weight:600;font-size:15px;display:block}
+.chosenbar .cs{font-size:12px;color:var(--ink-2);display:block}
+.chosenbar .chg{border:1px solid var(--line);background:#fff;border-radius:6px;padding:8px 13px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;color:var(--accent)}
+.chosenbar .chg:hover{border-color:var(--accent);background:var(--line-2)}
+.vbtn{width:100%;background:#7a1f2b;color:#fff;border:0;padding:12px;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer;margin-top:8px;font-family:inherit;display:none;align-items:center;justify-content:center;gap:8px}
+.vbtn:hover{background:#8f2735}.vbtn .pl{background:#fff;color:#7a1f2b;width:20px;height:20px;border-radius:50%;display:inline-grid;place-items:center;font-size:11px}
+.vmodal{position:fixed;inset:0;background:rgba(8,14,13,.82);display:none;place-items:center;z-index:120;padding:18px}
+.vmodal.on{display:grid}
+.vbox{background:#0f1c1f;border-radius:14px;max-width:460px;width:100%;padding:14px;position:relative}
+.vbox video{width:100%;border-radius:9px;background:#000;aspect-ratio:9/16;max-height:66vh;object-fit:contain}
+.vclose{position:absolute;top:-12px;right:-8px;background:#fff;border:0;width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.vname{color:#fff;font-weight:600;font-size:14px;margin:10px 4px 6px;display:flex;align-items:center;gap:8px}
+.vname .star{color:#f0b429}
+.vstrip{display:flex;gap:7px;overflow-x:auto;padding:4px 2px 2px}
+.vstrip img{width:58px;height:58px;object-fit:cover;border-radius:7px;cursor:pointer;border:2px solid transparent;flex:none}
+.vstrip img.sel{border-color:#f0b429}
+</style>
+</head>
+<body>
+<header class="hd">
+ <div class="wrap">
+  <span class="badge">Nordic Garden Buildings</span>
+  <h1>Build your garden building</h1>
+  <p>Configure your building step by step and see your price update instantly. Free UK installation included.</p>
+ </div>
+</header>
+<div class="usp"><div class="wrap">
+ <span><b>✓</b> Maintenance-free uPVC</span>
+ <span><b>✓</b> Handmade in South Wales · 40+ years</span>
+ <span><b>✓</b> FREE professional installation</span>
+ <span><b>✓</b> 28mm double glazing</span>
+ <span><b>✓</b> 10-year frame &amp; glass guarantee</span>
+ <span><b>✓</b> Finance available</span>
+ <span><b>✓</b> 36 UK display sites</span>
+ <span><b>✓</b> Tested to 110mph winds</span>
+</div></div>
+<div class="wrap">
+<div class="layout">
+ <div id="steps"></div>
+ <aside>
+  <div class="sum">
+   <div class="top"><h3>Your building</h3><p id="sumSub">Choose a range to begin</p></div>
+   <div class="body" id="sumBody"><div class="empty">Your specification and price will appear here as you build.</div></div>
+   <div class="foot">
+    <div class="tot"><span class="lb">Total</span><span class="v" id="total">—</span></div>
+    <div class="rrp" id="rrpLine"></div>
+    <div id="savingLine"></div>
+    <button class="cta" id="quoteBtn" disabled>Get my quote</button>
+    <button class="cta ghost" id="printBtn">Print / save specification</button>
+    <button class="vbtn" id="vidBtn"><span class="pl">▶</span><span id="vidLbl">Watch a real customer</span></button>
+    <p class="vat">All prices include VAT, delivery and free professional installation (UK mainland).<br>
+     Finance options available. Price list <b id="plDate"></b>. Quotation valid 30 days.</p>
+    <div class="guar"><span>🛡 10-yr frame &amp; glass guarantee</span><span>🏴 Handmade in South Wales</span><span>⚡ Installed in a day</span></div>
+   </div>
+  </div>
+ </aside>
+</div>
+</div>
+
+<div class="modal" id="modal">
+ <div class="mbox">
+  <button class="close" id="closeM">&times;</button>
+  <div id="formStage">
+   <h3>Get your quote</h3>
+   <p class="sb">We'll send your full specification and price. No obligation.</p>
+   <div class="specbox" id="mSpec"></div>
+   <form id="leadForm">
+    <div class="frow">
+     <div class="fld"><label>First name *</label><input name="first" required></div>
+     <div class="fld"><label>Last name *</label><input name="last" required></div>
+    </div>
+    <div class="frow">
+     <div class="fld"><label>Email *</label><input type="email" name="email" required></div>
+     <div class="fld"><label>Phone *</label><input type="tel" name="phone" required></div>
+    </div>
+    <div class="frow">
+     <div class="fld"><label>Postcode *</label><input name="postcode" required></div>
+     <div class="fld"><label>How did you hear about us?</label>
+      <select name="source"><option value="">Please select</option><option>Google</option><option>Facebook</option>
+      <option>Instagram</option><option>Display site visit</option><option>Recommendation</option>
+      <option>Brochure</option><option>Gardeners' World</option><option>Other</option></select></div>
+    </div>
+    <div class="fld" style="margin-bottom:11px"><label>Anything else we should know?</label>
+     <textarea name="notes" rows="2"></textarea></div>
+    <label class="check" style="margin-bottom:13px">
+     <input type="checkbox" name="consent">
+     <span><span class="t" style="font-weight:500;font-size:13px">Keep me updated</span>
+     <span class="s">I'm happy to receive occasional news and offers from Nordic Garden Buildings. You can unsubscribe at any time.</span></span>
+    </label>
+    <button class="cta" type="submit" style="margin-top:0">Send me this quote</button>
+   </form>
+  </div>
+  <div id="doneStage" style="display:none">
+   <div class="done">
+    <div class="tick">✓</div>
+    <h3>Thank you</h3>
+    <p class="sb" style="margin-bottom:16px">Your specification is on its way. One of our team will be in touch within one working day.</p>
+    <button class="cta ghost" id="againBtn" style="margin-top:0">Build another</button>
+   </div>
+  </div>
+ </div>
+</div>
+<div class="vmodal" id="vmodal"><div class="vbox">
+ <button class="vclose" id="vClose">&times;</button>
+ <video id="vPlayer" controls playsinline preload="none"></video>
+ <div class="vname"><span class="star">★★★★★</span> <span id="vName"></span> <span style="opacity:.6;font-weight:400">· real customer</span></div>
+ <div class="vstrip" id="vStrip"></div>
+</div></div>
+<script>
+const NGB_PRICES = {"priceList":"1 July 2026","ranges":{"ramsey-hipped":{"id":"ramsey-hipped","name":"Ramsey Corner Hipped","type":"Summerhouse","profile":"Corner profile, hipped-style roof","desc":"A popular corner garden room. Glass-to-ground windows and double doors let in plenty of light.","stdRoof":"Polycarbonate","roofUpgrade":"Tile Effect","variants":[{"size":"1900 x 1900","ext":"2100 x 2100","white":11199,"colour":14249,"roof":1790,"vinyl":225,"base":1400,"wUlt":13499,"cUlt":16349},{"size":"2200 x 2200","ext":"2400 x 2400","white":12349,"colour":15499,"roof":1790,"vinyl":325,"base":1500,"wUlt":14749,"cUlt":17699},{"size":"2500 x 2500","ext":"2700 x 2700","white":13499,"colour":16799,"roof":1790,"vinyl":400,"base":1600,"wUlt":15999,"cUlt":19049},{"size":"2800 x 2800","ext":"3000 x 3000","white":14099,"colour":18049,"roof":1900,"vinyl":500,"base":1700,"wUlt":16849,"cUlt":20499},{"size":"3100 x 3100","ext":"3300 x 3300","white":14699,"colour":19349,"roof":2130,"vinyl":625,"base":1800,"wUlt":17799,"cUlt":22099}]},"madison":{"id":"madison","name":"Madison Corner Hipped","type":"Studio","profile":"Square profile, hipped-style roof","desc":"Large glass-to-ground windows and sliding doors. Our most popular corner studio.","stdRoof":"Polycarbonate","roofUpgrade":"Tile Effect","variants":[{"size":"1900 x 1900","ext":"2100 x 2100","white":12249,"colour":15859,"roof":1950,"vinyl":275,"base":1030,"wUlt":14349,"cUlt":17699},{"size":"2200 x 2200","ext":"2400 x 2400","white":12899,"colour":16769,"roof":2600,"vinyl":375,"base":1160,"wUlt":15749,"cUlt":19349},{"size":"2500 x 2500","ext":"2700 x 2700","white":14199,"colour":18069,"roof":3200,"vinyl":475,"base":1290,"wUlt":17749,"cUlt":21299},{"size":"2800 x 2800","ext":"3000 x 3000","white":14799,"colour":19179,"roof":4500,"vinyl":575,"base":1420,"wUlt":19699,"cUlt":23749},{"size":"3100 x 3100","ext":"3300 x 3300","white":16099,"colour":20739,"roof":5150,"vinyl":700,"base":1550,"wUlt":21749,"cUlt":26049}]},"aspen":{"id":"aspen","name":"Aspen Apex","type":"Garden Office","profile":"Square profile, apex-style roof","desc":"A contemporary building with a traditional apex roof. Sliding doors and glass-to-ground windows.","stdRoof":"Polycarbonate","roofUpgrade":"Leka Tapco Slate","variants":[{"size":"2200 x 2000","ext":"2400 x 2200","white":15199,"colour":18899,"roof":980,"vinyl":275,"base":1450,"wUlt":16549,"cUlt":19999},{"size":"2200 x 2400","ext":"2400 x 2600","white":17349,"colour":21199,"roof":980,"vinyl":350,"base":1550,"wUlt":18699,"cUlt":22249},{"size":"2200 x 2800","ext":"2400 x 3000","white":18899,"colour":22899,"roof":980,"vinyl":400,"base":1550,"wUlt":20199,"cUlt":23899},{"size":"2200 x 3200","ext":"2400 x 3400","white":20349,"colour":24549,"roof":980,"vinyl":475,"base":1650,"wUlt":21699,"cUlt":25599}]},"greenwich":{"id":"greenwich","name":"Greenwich Pavilion","type":"Pavilion","profile":"Rectangular profile, pavilion-style roof","desc":"A stylish, contemporary garden room. Leka Tapco slate roof included as standard.","stdRoof":"Leka Tapco Slate (included)","roofUpgrade":null,"variants":[{"size":"2800 x 1900","ext":"3000 x 2100","white":17849,"colour":22249,"roof":0,"vinyl":350,"base":1350,"wUlt":18099,"cUlt":22149},{"size":"3400 x 1900","ext":"3600 x 2100","white":20249,"colour":24949,"roof":0,"vinyl":425,"base":1550,"wUlt":20549,"cUlt":24899},{"size":"4000 x 1900","ext":"4200 x 2100","white":20949,"colour":25749,"roof":0,"vinyl":500,"base":1550,"wUlt":21249,"cUlt":25699},{"size":"2800 x 2200","ext":"3000 x 2400","white":18649,"colour":23149,"roof":0,"vinyl":325,"base":1450,"wUlt":18899,"cUlt":23049},{"size":"3400 x 2200","ext":"3600 x 2400","white":20949,"colour":25699,"roof":0,"vinyl":475,"base":1550,"wUlt":21249,"cUlt":25649},{"size":"4000 x 2200","ext":"4200 x 2400","white":22549,"colour":27499,"roof":0,"vinyl":575,"base":1650,"wUlt":22899,"cUlt":27499},{"size":"4600 x 2200","ext":"4800 x 2400","white":23299,"colour":28349,"roof":0,"vinyl":650,"base":1750,"wUlt":23749,"cUlt":28449},{"size":"5200 x 2200","ext":"5400 x 2400","white":25699,"colour":31049,"roof":0,"vinyl":750,"base":1800,"wUlt":26149,"cUlt":31099},{"size":"2800 x 2800","ext":"3000 x 3000","white":20249,"colour":24949,"roof":0,"vinyl":500,"base":1550,"wUlt":20649,"cUlt":24949},{"size":"3400 x 2800","ext":"3600 x 3000","white":22649,"colour":27599,"roof":0,"vinyl":625,"base":1750,"wUlt":23149,"cUlt":27749},{"size":"4000 x 2800","ext":"4200 x 3000","white":23949,"colour":29399,"roof":0,"vinyl":725,"base":1850,"wUlt":24549,"cUlt":29599},{"size":"4600 x 2800","ext":"4800 x 3000","white":25899,"colour":31999,"roof":0,"vinyl":825,"base":2000,"wUlt":26549,"cUlt":32199},{"size":"5200 x 2800","ext":"5400 x 3000","white":28199,"colour":34599,"roof":0,"vinyl":950,"base":2100,"wUlt":28899,"cUlt":34849},{"size":"5650 x 2800","ext":"5850 x 3000","white":29699,"colour":36399,"roof":0,"vinyl":1025,"base":2200,"wUlt":30449,"cUlt":36649}]},"anglesey":{"id":"anglesey","name":"Anglesey Pent","type":"Summerhouse","profile":"Rectangular profile, pent-style roof","desc":"A pent roof contemporary garden room with french doors and glass-to-ground windows.","stdRoof":"Polycarbonate","roofUpgrade":"Tile Effect","variants":[{"size":"2500 x 1900","ext":"2700 x 2100","white":12249,"colour":15449,"roof":1590,"vinyl":300,"base":1350,"wUlt":14349,"cUlt":17299},{"size":"2800 x 1900","ext":"3000 x 2100","white":13299,"colour":16649,"roof":1590,"vinyl":350,"base":1350,"wUlt":15349,"cUlt":18449},{"size":"3400 x 1900","ext":"3600 x 2100","white":14549,"colour":17999,"roof":1590,"vinyl":425,"base":1550,"wUlt":16749,"cUlt":19949},{"size":"4000 x 1900","ext":"4200 x 2100","white":15599,"colour":19199,"roof":1590,"vinyl":500,"base":1550,"wUlt":17799,"cUlt":21149},{"size":"2800 x 2200","ext":"3000 x 2400","white":13949,"colour":17299,"roof":1590,"vinyl":400,"base":1450,"wUlt":16099,"cUlt":19199},{"size":"3400 x 2200","ext":"3600 x 2400","white":15599,"colour":19199,"roof":1590,"vinyl":475,"base":1550,"wUlt":17749,"cUlt":21099},{"size":"4000 x 2200","ext":"4200 x 2400","white":17299,"colour":21049,"roof":1590,"vinyl":575,"base":1650,"wUlt":19549,"cUlt":22999},{"size":"4600 x 2200","ext":"4800 x 2400","white":18949,"colour":22949,"roof":1590,"vinyl":650,"base":1750,"wUlt":21199,"cUlt":24899},{"size":"5200 x 2200","ext":"5400 x 2400","white":20599,"colour":24749,"roof":1590,"vinyl":750,"base":1800,"wUlt":22899,"cUlt":26699},{"size":"2800 x 2800","ext":"3000 x 3000","white":16149,"colour":19799,"roof":1590,"vinyl":500,"base":1550,"wUlt":18299,"cUlt":21699},{"size":"3400 x 2800","ext":"3600 x 3000","white":17899,"colour":21749,"roof":1590,"vinyl":625,"base":1750,"wUlt":20199,"cUlt":23799},{"size":"4000 x 2800","ext":"4200 x 3000","white":19549,"colour":23599,"roof":1590,"vinyl":725,"base":1850,"wUlt":21949,"cUlt":25699},{"size":"4600 x 2800","ext":"4800 x 3000","white":21249,"colour":25499,"roof":1590,"vinyl":825,"base":2000,"wUlt":23749,"cUlt":27649},{"size":"5200 x 2800","ext":"5400 x 3000","white":22899,"colour":27949,"roof":1590,"vinyl":950,"base":2100,"wUlt":25449,"cUlt":30149},{"size":"5650 x 2800","ext":"5850 x 3000","white":25099,"colour":30399,"roof":1590,"vinyl":1025,"base":2200,"wUlt":27649,"cUlt":32549}]},"manhattan":{"id":"manhattan","name":"Manhattan Pent","type":"Garden Office","profile":"Rectangular profile, pent-style roof","desc":"A multifunction garden room with large glass-to-ground windows and sliding doors.","stdRoof":"Pent (standard)","roofUpgrade":null,"variants":[{"size":"2800 x 1900","ext":"3000 x 2100","white":15899,"colour":19549,"roof":0,"vinyl":350,"base":1350,"wUlt":16299,"cUlt":19649},{"size":"3400 x 1900","ext":"3600 x 2100","white":17649,"colour":21649,"roof":0,"vinyl":425,"base":1550,"wUlt":18149,"cUlt":21849},{"size":"4000 x 1900","ext":"4200 x 2100","white":18949,"colour":23249,"roof":0,"vinyl":500,"base":1550,"wUlt":19399,"cUlt":23399},{"size":"2800 x 2200","ext":"3000 x 2400","white":16749,"colour":20499,"roof":0,"vinyl":400,"base":1450,"wUlt":17199,"cUlt":20649},{"size":"3400 x 2200","ext":"3600 x 2400","white":18599,"colour":22799,"roof":0,"vinyl":475,"base":1550,"wUlt":19099,"cUlt":22949},{"size":"4000 x 2200","ext":"4200 x 2400","white":19999,"colour":24549,"roof":0,"vinyl":575,"base":1650,"wUlt":20549,"cUlt":24749},{"size":"4600 x 2200","ext":"4800 x 2400","white":21249,"colour":26399,"roof":0,"vinyl":650,"base":1750,"wUlt":21899,"cUlt":26649},{"size":"5200 x 2200","ext":"5400 x 2400","white":22999,"colour":28549,"roof":0,"vinyl":750,"base":1800,"wUlt":23649,"cUlt":28749},{"size":"2800 x 2800","ext":"3000 x 3000","white":18299,"colour":22549,"roof":0,"vinyl":500,"base":1550,"wUlt":18799,"cUlt":22749},{"size":"3400 x 2800","ext":"3600 x 3000","white":20449,"colour":25349,"roof":0,"vinyl":625,"base":1750,"wUlt":21099,"cUlt":25649},{"size":"4000 x 2800","ext":"4200 x 3000","white":21849,"colour":26949,"roof":0,"vinyl":725,"base":1850,"wUlt":22599,"cUlt":27299},{"size":"4600 x 2800","ext":"4800 x 3000","white":23399,"colour":29249,"roof":0,"vinyl":825,"base":2000,"wUlt":24249,"cUlt":29649},{"size":"5200 x 2800","ext":"5400 x 3000","white":25599,"colour":31699,"roof":0,"vinyl":950,"base":2100,"wUlt":26499,"cUlt":32149},{"size":"5650 x 2800","ext":"5850 x 3000","white":26849,"colour":33599,"roof":0,"vinyl":1025,"base":2200,"wUlt":27799,"cUlt":34049}]},"broadway":{"id":"broadway","name":"Broadway Flat","type":"Garden Office","profile":"Rectangular profile, flat EPDM roof","desc":"The modern-day garden office. Flat EPDM roof, large sliding doors, glass-to-ground windows.","stdRoof":"Flat EPDM Insulated","roofUpgrade":null,"variants":[{"size":"2800 x 1900","ext":"3000 x 2100","white":19499,"colour":23499,"roof":0,"vinyl":350,"base":1350,"wUlt":19599,"cUlt":23299},{"size":"3400 x 1900","ext":"3600 x 2100","white":21899,"colour":26149,"roof":0,"vinyl":425,"base":1550,"wUlt":22099,"cUlt":25999},{"size":"4000 x 1900","ext":"4200 x 2100","white":23399,"colour":28649,"roof":0,"vinyl":500,"base":1550,"wUlt":23549,"cUlt":28399},{"size":"2800 x 2200","ext":"3000 x 2400","white":20449,"colour":24399,"roof":0,"vinyl":400,"base":1450,"wUlt":20649,"cUlt":24299},{"size":"3400 x 2200","ext":"3600 x 2400","white":22699,"colour":27849,"roof":0,"vinyl":475,"base":1550,"wUlt":22849,"cUlt":27649},{"size":"4000 x 2200","ext":"4200 x 2400","white":24999,"colour":30399,"roof":0,"vinyl":575,"base":1650,"wUlt":25199,"cUlt":30199},{"size":"4600 x 2200","ext":"4800 x 2400","white":26599,"colour":32949,"roof":0,"vinyl":650,"base":1750,"wUlt":26799,"cUlt":32699},{"size":"5200 x 2200","ext":"5400 x 2400","white":28799,"colour":35499,"roof":0,"vinyl":750,"base":1800,"wUlt":28999,"cUlt":35199},{"size":"2800 x 2800","ext":"3000 x 3000","white":22699,"colour":27849,"roof":0,"vinyl":500,"base":1550,"wUlt":22899,"cUlt":27649},{"size":"3400 x 2800","ext":"3600 x 3000","white":25749,"colour":31249,"roof":0,"vinyl":625,"base":1750,"wUlt":25999,"cUlt":31099},{"size":"4000 x 2800","ext":"4200 x 3000","white":27349,"colour":33999,"roof":0,"vinyl":725,"base":1850,"wUlt":27699,"cUlt":33849},{"size":"4600 x 2800","ext":"4800 x 3000","white":29649,"colour":36549,"roof":0,"vinyl":825,"base":2000,"wUlt":30049,"cUlt":36399},{"size":"5200 x 2800","ext":"5400 x 3000","white":32749,"colour":39849,"roof":0,"vinyl":950,"base":2100,"wUlt":33099,"cUlt":39699},{"size":"5650 x 2800","ext":"5850 x 3000","white":34199,"colour":42399,"roof":0,"vinyl":1025,"base":2200,"wUlt":34599,"cUlt":42199},{"size":"4000 x 3800","ext":"4200 x 4000","white":30149,"colour":37399,"roof":0,"vinyl":1000,"base":2150,"wUlt":30799,"cUlt":37499},{"size":"4600 x 3800","ext":"4800 x 4000","white":32699,"colour":40199,"roof":0,"vinyl":1125,"base":2250,"wUlt":33349,"cUlt":40299},{"size":"5200 x 3800","ext":"5400 x 4000","white":36099,"colour":43849,"roof":0,"vinyl":1275,"base":2400,"wUlt":36799,"cUlt":43949},{"size":"5800 x 3800","ext":"6000 x 4000","white":37699,"colour":46649,"roof":0,"vinyl":1425,"base":2500,"wUlt":38499,"cUlt":46799}]},"melbourne":{"id":"melbourne","name":"Melbourne Octagonal","type":"Summerhouse","profile":"Octagonal profile, hipped-style roof","desc":"A stunning octagonal summerhouse. Longline leaded windows let in plenty of light.","stdRoof":"Polycarbonate","roofUpgrade":"Tile Effect","variants":[{"size":"P1200","ext":"3097 x 3097","white":14799,"colour":18699,"roof":2510,"vinyl":625,"base":1400,"wUlt":17899,"cUlt":21499},{"size":"P1400","ext":"3580 x 3580","white":16749,"colour":21649,"roof":2950,"vinyl":900,"base":1600,"wUlt":20549,"cUlt":25049},{"size":"P1600","ext":"4063 x 4063","white":19549,"colour":24749,"roof":3240,"vinyl":1125,"base":1800,"wUlt":23799,"cUlt":28599},{"size":"P1800","ext":"4546 x 4546","white":22599,"colour":29049,"roof":3830,"vinyl":1425,"base":2000,"wUlt":27599,"cUlt":33599}]},"ashbrook":{"id":"ashbrook","name":"Ashbrook Apex","type":"Garden Office","profile":"Rectangular profile, apex-style roof","desc":"A spacious apex garden room. Leka Tapco slate roof included as standard.","stdRoof":"Leka Tapco Slate (included)","roofUpgrade":null,"variants":[{"size":"2800 x 2800","ext":"3000 x 3000","white":19999,"colour":24649,"roof":0,"vinyl":500,"base":1550,"wUlt":20399,"cUlt":24699},{"size":"3800 x 2800","ext":"4000 x 3000","white":23199,"colour":28499,"roof":0,"vinyl":700,"base":1850,"wUlt":23799,"cUlt":28699},{"size":"4800 x 2800","ext":"5000 x 3000","white":26299,"colour":32499,"roof":0,"vinyl":875,"base":2000,"wUlt":26999,"cUlt":32699},{"size":"5800 x 2800","ext":"6000 x 3000","white":29999,"colour":36849,"roof":0,"vinyl":1050,"base":2250,"wUlt":30799,"cUlt":37149}]},"ramsey-flat":{"id":"ramsey-flat","name":"Ramsey Corner Flat","type":"Summerhouse","profile":"Corner profile, flat 60mm EPDM roof","desc":"A popular corner garden room with an insulated flat EPDM roof.","stdRoof":"Flat 60mm EPDM Insulated","roofUpgrade":null,"variants":[{"size":"1900 x 1900","ext":"2100 x 2100","white":13349,"colour":16399,"roof":0,"vinyl":225,"base":1400,"wUlt":13849,"cUlt":16649},{"size":"2200 x 2200","ext":"2400 x 2400","white":14449,"colour":17699,"roof":0,"vinyl":325,"base":1500,"wUlt":15049,"cUlt":18049},{"size":"2500 x 2500","ext":"2700 x 2700","white":15599,"colour":19049,"roof":0,"vinyl":400,"base":1600,"wUlt":16299,"cUlt":19449},{"size":"2800 x 2800","ext":"3000 x 3000","white":16349,"colour":20349,"roof":0,"vinyl":500,"base":1700,"wUlt":17149,"cUlt":20849},{"size":"3100 x 3100","ext":"3300 x 3300","white":17199,"colour":21899,"roof":0,"vinyl":625,"base":1800,"wUlt":18149,"cUlt":22499}]}},"accessories":{"blinds":{"ashbrook":{"4000x3000":3520,"5000x3000":3520,"6000x3000":3520},"broadway":{"3000x2100":3740,"3600x2100":3920,"4200x2100":4060,"3000x2400":3790,"3600x2400":3980,"4200x2400":4110,"4800x2400":4390,"5400x2400":4110,"3000x3000":3950,"3600x3000":4130,"4200x3000":4270,"4800x3000":4540,"5400x3000":4270,"5850x3000":4270,"4200x4000":4270,"4800x4000":4540,"5400x4000":4270,"6000x4000":4270},"manhattan":{"3000x2100":3740,"3600x2100":3920,"4200x2100":4060,"3000x2400":3790,"3600x2400":3980,"4200x2400":4110,"4800x2400":4390,"5400x2400":4110,"3000x3000":3950,"3600x3000":4130,"4200x3000":4270,"4800x3000":4540,"5400x3000":4270,"5850x3000":4270},"greenwich":{"3000x2100":3350,"3600x2100":3630,"4200x2100":3720,"3000x2400":3400,"3600x2400":3680,"4200x2400":3760,"4800x2400":4040,"5400x2400":3760,"3000x3000":3520,"3600x3000":3790,"4200x3000":3880,"4800x3000":4160,"5400x3000":3880,"5850x3000":3880},"madison":{"2100x2100":2250,"2400x2400":2600,"2700x2700":2720,"3000x3000":2840,"3300x3300":3070}},"blindSmall":300,"windowOpenWhite":260,"windowOpenColour":320,"windowFixedWhite":240,"windowFixedColour":300,"store12White":4020,"store12Colour":4520,"store18White":6030,"store18Colour":6780,"finialWhite":110,"finialColour":130,"doorsWhite":1000,"doorsColour":1450,"panelWhite":200,"panelColour":300,"tgPanelWhite":230,"tgPanelColour":350}};
+const NGB_IMAGES = {"ramsey-hipped":{"src":"https://assets.greenhousepeople.co.uk/images/ranges/original/7ft2%20x%207ft2%20Ramsey%20Hipped%20Grey%20-%20Woodford%20Park30-06-2023-11-19-32.jpg?fit=pad&format=webp&q=85&w=640&h=480","thumb":"https://assets.greenhousepeople.co.uk/images/ranges/original/7ft2%20x%207ft2%20Ramsey%20Hipped%20Grey%20-%20Woodford%20Park30-06-2023-11-19-32.jpg?fit=pad&format=webp&q=85&w=420&h=315","fb":"https://www.nordicgardenbuildings.com/img/prod/cat/families/39/9.jpeg","alt":"Nordic Ramsey Corner Hipped garden room in Grey","shownIn":"Grey"},"ramsey-flat":{"src":"https://assets.greenhousepeople.co.uk/images/ranges/original/7ft2%20x%207ft2%20Ramsey%20Grey%20-%20Bridgemere30-06-2023-11-18-11.jpg?fit=pad&format=webp&q=85&w=640&h=480","thumb":"https://assets.greenhousepeople.co.uk/images/ranges/original/7ft2%20x%207ft2%20Ramsey%20Grey%20-%20Bridgemere30-06-2023-11-18-11.jpg?fit=pad&format=webp&q=85&w=420&h=315","fb":"https://www.nordicgardenbuildings.com/img/prod/cat/families/39/9.jpeg","alt":"Nordic Ramsey Corner Flat garden room in Grey","shownIn":"Grey"},"madison":{"src":"https://assets.greenhousepeople.co.uk/images/ranges/original/Madison%202500%20Grey%20Tile%20Roof%20cutout31-12-2020-15-56-26.jpg?fit=pad&format=webp&q=85&w=640&h=480","thumb":"https://assets.greenhousepeople.co.uk/images/ranges/original/Madison%202500%20Grey%20Tile%20Roof%20cutout31-12-2020-15-56-26.jpg?fit=pad&format=webp&q=85&w=420&h=315","fb":"https://www.nordicgardenbuildings.com/img/prod/cat/families/3/18.jpeg","alt":"Nordic Madison corner studio in Grey","shownIn":"Grey with tile effect roof"},"aspen":{"src":"https://assets.greenhousepeople.co.uk/images/ranges/original/Aspen_cut_out27-03-2021-11-51-38.png?fit=pad&format=webp&q=85&w=640&h=480","thumb":"https://assets.greenhousepeople.co.uk/images/ranges/original/Aspen_cut_out27-03-2021-11-51-38.png?fit=pad&format=webp&q=85&w=420&h=315","fb":"https://www.nordicgardenbuildings.com/img/prod/cat/families/35/1.jpeg","alt":"Nordic Aspen Apex garden office","shownIn":""},"greenwich":{"src":"https://assets.greenhousepeople.co.uk/images/ranges/original/11ft2x9ft2%20Greenwich%20Golden%20Oak%20GG31-03-2021-15-29-07.jpg?fit=pad&format=webp&q=85&w=640&h=480","thumb":"https://assets.greenhousepeople.co.uk/images/ranges/original/11ft2x9ft2%20Greenwich%20Golden%20Oak%20GG31-03-2021-15-29-07.jpg?fit=pad&format=webp&q=85&w=420&h=315","fb":"https://www.nordicgardenbuildings.com/img/prod/cat/families/2/1.jpeg","alt":"Nordic Greenwich Pavilion in Golden Oak","shownIn":"Golden Oak","byColour":{"golden-oak":"https://assets.greenhousepeople.co.uk/images/ranges/original/11ft2x9ft2%20Greenwich%20Golden%20Oak%20GG31-03-2021-15-29-07.jpg?fit=pad&format=webp&q=85&w=640&h=480","chartwell":"https://assets.greenhousepeople.co.uk/images/ranges/original/Greenwich_1900x4000_green31-03-2021-15-27-50.JPG?fit=pad&format=webp&q=85&w=640&h=480","white":"https://assets.greenhousepeople.co.uk/images/ranges/original/Greenwich_2200x4600_white_doors_open31-03-2021-15-28-35.JPG?fit=pad&format=webp&q=85&w=640&h=480"}},"anglesey":{"src":"https://assets.greenhousepeople.co.uk/images/ranges/original/nordic_anglesey_5400x2400_anthracite_closed28-04-2025-13-13-58.jpg?fit=pad&format=webp&q=85&w=640&h=480","thumb":"https://assets.greenhousepeople.co.uk/images/ranges/original/nordic_anglesey_5400x2400_anthracite_closed28-04-2025-13-13-58.jpg?fit=pad&format=webp&q=85&w=420&h=315","fb":"https://www.nordicgardenbuildings.com/img/prod/cat/families/37/5.png","alt":"Nordic Anglesey Pent summerhouse in Anthracite","shownIn":"Anthracite"},"manhattan":{"src":"https://assets.greenhousepeople.co.uk/images/ranges/original/9x7%20Manhattan%20White%20cutout27-01-2021-14-08-34.jpg?fit=pad&format=webp&q=85&w=640&h=480","thumb":"https://assets.greenhousepeople.co.uk/images/ranges/original/9x7%20Manhattan%20White%20cutout27-01-2021-14-08-34.jpg?fit=pad&format=webp&q=85&w=420&h=315","fb":"https://www.nordicgardenbuildings.com/img/prod/cat/families/1/6.jpeg","alt":"Nordic Manhattan Pent garden office in White","shownIn":"White","byColour":{"white":"https://assets.greenhousepeople.co.uk/images/ranges/original/9x7%20Manhattan%20White%20cutout27-01-2021-14-08-34.jpg?fit=pad&format=webp&q=85&w=640&h=480","grey":"https://assets.greenhousepeople.co.uk/images/ranges/original/11x7%20Manhattan%20Grey%20cutout27-01-2021-14-09-10.jpg?fit=pad&format=webp&q=85&w=640&h=480","black":"https://assets.greenhousepeople.co.uk/images/ranges/original/11x7%20Manhattan%20Black%20cutout27-01-2021-14-08-47.jpg?fit=pad&format=webp&q=85&w=640&h=480"}},"broadway":{"src":"https://assets.greenhousepeople.co.uk/images/ranges/original/11ft2x9ft2%20Broadway%20Grey%20cutout27-01-2021-14-11-30.jpg?fit=pad&format=webp&q=85&w=640&h=480","thumb":"https://assets.greenhousepeople.co.uk/images/ranges/original/11ft2x9ft2%20Broadway%20Grey%20cutout27-01-2021-14-11-30.jpg?fit=pad&format=webp&q=85&w=420&h=315","fb":"https://www.nordicgardenbuildings.com/img/prod/cat/families/33/2.png","alt":"Nordic Broadway Flat garden office in Grey","shownIn":"Grey","byColour":{"grey":"https://assets.greenhousepeople.co.uk/images/ranges/original/11ft2x9ft2%20Broadway%20Grey%20cutout27-01-2021-14-11-30.jpg?fit=pad&format=webp&q=85&w=640&h=480","golden-oak":"https://assets.greenhousepeople.co.uk/images/ranges/original/9ft2x7ft3%20Broadway%20Golden%20Oak%20cutout27-01-2021-14-09-56.jpg?fit=pad&format=webp&q=85&w=640&h=480","irish-oak":"https://assets.greenhousepeople.co.uk/images/ranges/original/9ft2x7ft3%20Broadway%20Irish%20Oak%20cutout27-01-2021-14-10-43.jpg?fit=pad&format=webp&q=85&w=640&h=480"}},"melbourne":{"src":"https://assets.greenhousepeople.co.uk/images/ranges/original/9x9%20Melbourne%20in%20Grey%20cutout05-01-2021-18-39-30.jpg?fit=pad&format=webp&q=85&w=640&h=480","thumb":"https://assets.greenhousepeople.co.uk/images/ranges/original/9x9%20Melbourne%20in%20Grey%20cutout05-01-2021-18-39-30.jpg?fit=pad&format=webp&q=85&w=420&h=315","fb":"","alt":"Nordic Melbourne Octagonal summerhouse in Grey","shownIn":"Grey"},"ashbrook":{"src":"https://assets.greenhousepeople.co.uk/images/ranges/original/Ashbrook_transparent01-09-2025-13-27-23.png?fit=pad&format=webp&q=85&w=640&h=480","thumb":"https://assets.greenhousepeople.co.uk/images/ranges/original/Ashbrook_transparent01-09-2025-13-27-23.png?fit=pad&format=webp&q=85&w=420&h=315","fb":"","alt":"Nordic Ashbrook Apex garden room","shownIn":""}};
+/* ============================================================================
+   NORDIC GARDEN BUILDINGS — PRICE CONFIGURATOR
+   Prices: NGB_PRICES below (generated from "Nordic - 1st July 2026 CURRENT").
+   To update pricing, edit NGB_PRICES only. Nothing else needs to change.
+   To add a range, append an object to NGB_PRICES.ranges with the same shape.
+   ========================================================================== */
+
+const NGB_INSTALL={"ramsey-hipped":{"grey":{"poly":"p/2b82f80387dd.jpg","_default":"p/2b82f80387dd.jpg"},"chartwell":{"poly":"p/0075769d409b.jpg","tile":"p/cafb1c911a23.jpg","_default":"p/cafb1c911a23.jpg"},"white":{"poly":"p/133cf2f6e94e.jpg","_default":"p/133cf2f6e94e.jpg"}},"ramsey-flat":{"white":{"_default":"p/5bb58fa9a736.jpg"}},"madison":{"golden-oak":{"poly":"p/964c02b270ba.jpg","tile":"p/eb0e52dabf93.jpg","_default":"p/eb0e52dabf93.jpg"},"grey":{"tile":"p/1750fffdae10.jpg","_default":"p/1750fffdae10.jpg"},"black":{"tile":"p/6888e2be3960.jpg","_default":"p/6888e2be3960.jpg"},"chartwell":{"tile":"p/862b7873623f.jpg","_default":"p/862b7873623f.jpg"}},"greenwich":{"grey":{"_default":"p/3b2c7cffa5b4.jpg"},"chartwell":{"_default":"p/34c66299b7fa.jpg"},"irish-oak":{"_default":"p/514254d7135a.jpg"},"black":{"_default":"p/a0210f62c541.jpg"},"golden-oak":{"_default":"p/153bbf70d7f0.jpg"}},"manhattan":{"grey":{"_default":"p/9804d73634e5.jpg"},"black":{"_default":"p/755b9089295d.jpg"},"chartwell":{"_default":"p/ca50666a59ce.jpg"},"white":{"_default":"p/b60bfa259a84.jpg"}},"broadway":{"black":{"_default":"p/53440c9b7349.jpg"},"grey":{"_default":"p/6b40aeea6504.jpg"},"chartwell":{"_default":"p/0d06c20f71c8.jpg"}},"melbourne":{"grey":{"_default":"p/a56e20ecf0a2.jpg"},"chartwell":{"_default":"p/96c7f6fc3b32.jpg"}},"aspen":{"grey":{"_default":"p/5bec488f6c81.jpg"}},"anglesey":{"grey":{"_default":"p/8505dca22ab3.jpg"}}};
+const NGB_VIDEOS={"manhattan":[{"n":"Sian Hinchcliffe","id":"u3OCvT00AkEGrjtpjxgv00D43OkFM00LRAYWYHjay3NrSo"},{"n":"Christine Welham","id":"gDZnzglf008O6mE3rSjLGuXGd6snJ4rGNfS3CtLW1F01Q"},{"n":"Richard Reeves","id":"5ch96jZCPxuwtZQ6yF7cKk5Revusd8ciJ00j8mw4r8Mw"},{"n":"Trish John","id":"k8ykNomUn4fKgptD5hMblGKJ8wVvSpdv1hQ6qnbKF6k"},{"n":"Trish Maitland","id":"Id1pZrxx4KL7pZuFmMa6PVD01EAKVps5aAuodIeg8RWQ"}],"greenwich":[{"n":"Sally Bew","id":"CXxlqwP8jEWpyUpT3dshVwieLsCbpUHcS9QyMmeVB6Q"},{"n":"Debbie Towers","id":"hRTYsELQ7NO00UDr8gJF00AqTe00qVql016SliUASkTqet4"},{"n":"Henry John Lints","id":"UWwv8UETmNVc5h013LoNWmFUGEvjfybGREzm8i22h8bQ"},{"n":"Alison Bridge","id":"15lWlAhUm6clDLt01ybiGNakgFijPzmWJ00leYXUs01JuM"}],"madison":[{"n":"Sue Warren","id":"V9Ga200O21qs5na9gWAAzyWnvvWSd1h5wjflucup6pkM"},{"n":"Barbara Cracknell","id":"72zYSor500KVwqZkD6x8ybkQOu6SDUAyeu4MsuPi01k7s"},{"n":"Lyndsay Urbanczyk","id":"Z8evUT83oXvDz2mdNvLK69jqKI94Z9Ox7ZrkNGwdY9E"},{"n":"Diane Mearns","id":"01QJDOLoaU013tWzV39srxhUHjytcvbSHyQ9GiPvCNuzA"},{"n":"Gordon Mackillop","id":"00xARsq3FYlSsyKE02ZLpyGqoZ59DsqQFQxfm3XAO4KDY"},{"n":"Vanessa Ramsden","id":"sKZ2Pnki9kdTnNZK1yeH7sLPF4nFJ00MWlIZN1VrzLy4"},{"n":"Brian Suttie","id":"IroR2LzIT7BopLdwmaE4Y9eZ00UJVhlsuctyNeHjlNA4"},{"n":"Julie Bathgate","id":"NIC7wNScHVrD6xq7l1NWQ92BQ01WXuxZMI02LByvysNeU"},{"n":"Carolyn Harrison","id":"BfZUJM8dCjH02vIwoV6QL01T01DGrKWPz6LUgTceaB2PYw"}],"melbourne":[{"n":"Susan Hasley","id":"WeeiMmWE8Pdq02LBVMJZ2EyAgP00iu5tsVi1rklr00cmx00"},{"n":"Phil Potter","id":"xxOeFOtZ02wDV61FA00H6500qQPUkPxWZd02pgcuP6jKAoc"}],"ramsey-hipped":[{"n":"Chris Clarkson","id":"7r8vorqNGbGYv6CytOIrWyElQclUlaDQaSZZET4Mchc"},{"n":"Alexander Samson","id":"ZxzqgNn5Jksc1WAKQm013SlDOr7QvxNeA6OvgPKf2F64"},{"n":"Nick Edmunds","id":"d7y3ObAv2sul00GWxWgm4NE9Ibb02mqSTYHBX9xJ5J6s8"}],"ramsey-flat":[{"n":"Chris Clarkson","id":"7r8vorqNGbGYv6CytOIrWyElQclUlaDQaSZZET4Mchc"},{"n":"Alexander Samson","id":"ZxzqgNn5Jksc1WAKQm013SlDOr7QvxNeA6OvgPKf2F64"},{"n":"Nick Edmunds","id":"d7y3ObAv2sul00GWxWgm4NE9Ibb02mqSTYHBX9xJ5J6s8"}],"_general":[{"n":"Joanna","id":"y5DkTrZvL7JbM9UQLLRPvUP7j7TL8bqI18FWuAK01TUk"},{"n":"Geoff Blofield","id":"unfRjS96pjJKkF6Em1eETtk5cKy6PN53znKJslo4pyc"},{"n":"William Adams","id":"8pRrtQszdaTTh6FmF1e3E5MARpxeiPVW53w2QSgo00OQ"},{"n":"Anthony Walker","id":"wiMxqrY8lI6ZITZa9Ddc6suORSkLu5mIXJGtDjMP7TM"},{"n":"Janet Poarou","id":"HX6p02kKd3F01Va501G8d9n99pKTRXGwMHnmmWjFasGM6M"},{"n":"Hilary Jackson","id":"MAHDB00bTaxF0002nliZUROvCfYAbH100yEHYqZ4atMWS00w"},{"n":"Mitch Cameron","id":"vhbOy2CcLb5hOO8B5dMQozy800PxoyD6vA4RFga02vmJg"},{"n":"Richard Taylor","id":"19IodBryVjBTyYpXbFkePVW7Eh003dWMKNnqXWyFd5ic"},{"n":"Keith Chalmers","id":"iY7jhpaEjOpLEmfJO1UOV2Ysn3xkTzsfi5p2NCf8v6s"},{"n":"Jacky","id":"mhHIkw6VzH7Y00AKS8TDk8GDJLauAN3mLnBPZdXdYoFg"},{"n":"Richard Warner","id":"voXra9TbRIfeLcvb02KwsDVqbFANbDmw00EtTIuNTdJdc"},{"n":"Gareth Jackson","id":"jCQJbSa5bpHIERInP02ANqc00MS4u3yjF5yPRDFJksUeU"},{"n":"Alison Parr","id":"YJXyWnzbXb00aWDBt017Pf2QrH341mojaSjEOX1PrvYFM"},{"n":"Nick Edmunds","id":"d7y3ObAv2sul00GWxWgm4NE9Ibb02mqSTYHBX9xJ5J6s8"},{"n":"Jim B","id":"OuWp2ppRWlTdeLnymOootvWd9vAG6NhTrNvc00WIHDmk"},{"n":"Michael Lawrence","id":"iJ8h7nEHIqrScwSJB97Mwogv5AL101NXyj1eD02Ey4Jk8"},{"n":"Andrew Robinson","id":"2xXVkPxRj202sHwFwN8502wMukL2XPZHiD6PvA70201vVF00"},{"n":"Amanda Hughes","id":"kbEU2hmL00gH5Z4bEkHvXVWezENBxJzyPNBufQdUSWXI"},{"n":"Amanda Short","id":"Hj1xwQYqlW5qiqrFHk02sm46RjiZGTJwb6n1oS1mHOzc"},{"n":"Susan Lawrence","id":"lwVhmeA6Y6lhzZme004AEeAvGcdphXNEo88Fr0002jBoHA"},{"n":"Patricia Patterson","id":"T01JXX5aLuNXD58WxUsV1dgkFzSA7mhxcYYHbJg02R4qo"},{"n":"Gillian MacDonald","id":"B01W0001uH02z021KF01pHPmPXXHfF1PrUGxQWlneEstaONXk"}]};
+
+const NGB_TGP={"madison":{"white":"https://assets.greenhousepeople.co.uk/images/products/original/nordic_madison_2700_white12-03-2026-09-56-13.jpg"},"manhattan":{"white":"https://assets.greenhousepeople.co.uk/images/products/original/Manhattan+3400x2200+White16-01-2024-13-53-38.jpg","black":"https://assets.greenhousepeople.co.uk/images/products/original/Manhattan+3400x2200+Black16-01-2024-13-53-30.jpg","grey":"https://assets.greenhousepeople.co.uk/images/products/original/Manhattan+4000x2200+Grey16-01-2024-13-53-46.jpg"},"broadway":{"white":"https://assets.greenhousepeople.co.uk/images/products/original/Broadway_1900x3400_white_doors_open05-02-2024-11-26-58.JPG","black":"https://assets.greenhousepeople.co.uk/images/products/original/Broadway+Black+4200x300001-02-2024-14-37-55.jpg","grey":"https://assets.greenhousepeople.co.uk/images/products/original/Broadway+Grey+3600x300001-02-2024-14-38-36.jpg","irish-oak":"https://assets.greenhousepeople.co.uk/images/products/original/Broadway+Irish+Oak+4200x240001-02-2024-14-38-52.jpg"},"greenwich":{"white":"https://assets.greenhousepeople.co.uk/images/products/original/4200x3000+White19-01-2024-11-03-20.jpg","black":"https://assets.greenhousepeople.co.uk/images/products/original/3600x3000+Black19-01-2024-11-03-24.jpg","golden-oak":"https://assets.greenhousepeople.co.uk/images/products/original/3600x3000+GO19-01-2024-11-03-17.jpg"},"melbourne":{"white":"https://assets.greenhousepeople.co.uk/images/products/original/Melbourne+3087x3087+White+Poly30-01-2024-15-15-09.jpg","grey":"https://assets.greenhousepeople.co.uk/images/products/original/Melbourne+4063x4063+Grey30-01-2024-15-15-22.jpg","black":"https://assets.greenhousepeople.co.uk/images/products/original/Melbourne+3087x3087+Black+Glass+Roof30-01-2024-15-14-26.jpg"},"ashbrook":{"white":"https://assets.greenhousepeople.co.uk/images/products/original/3mx3m+Ashbrook+White+Cutout25-03-2026-15-22-56.jpeg","grey":"https://assets.greenhousepeople.co.uk/images/products/original/3mx3m+Ashbrook+Grey+Stirling11-08-2025-10-25-48.jpeg"},"aspen":{"white":"https://assets.greenhousepeople.co.uk/images/products/original/Aspen_2200x2000_white_slate_roof29-01-2024-14-20-07.JPG","black":"https://assets.greenhousepeople.co.uk/images/products/original/Aspen+2400x2200+Black29-01-2024-14-19-13.jpg","chartwell":"https://assets.greenhousepeople.co.uk/images/products/original/Aspen+2400x2200+Chartwell+Green29-01-2024-14-19-20.jpg","irish-oak":"https://assets.greenhousepeople.co.uk/images/products/original/Aspen+2400x2200+Irish29-01-2024-14-19-16.jpg"},"anglesey":{"black":"https://assets.greenhousepeople.co.uk/images/products/original/Anglesey+2700x2100+Black19-09-2024-10-58-41.jpeg","grey":"https://assets.greenhousepeople.co.uk/images/products/original/Anglesey+2700x2100+Grey19-09-2024-10-59-00.jpg","chartwell":"https://assets.greenhousepeople.co.uk/images/products/original/Anglesey+2700x2100+Staines+Chartwell19-09-2024-10-58-51.jpg"},"ramsey-hipped":{"grey":"https://assets.greenhousepeople.co.uk/images/products/original/7ft2+x+7ft2+Ramsey+Grey+-+Bridgemere24-04-2024-14-00-25.jpg","black":"https://assets.greenhousepeople.co.uk/images/products/original/7ft2+x+7ft2+Ramsey+Black+-+Oxford+South24-04-2024-14-00-55.jpg"},"ramsey-flat":{"grey":"https://assets.greenhousepeople.co.uk/images/products/original/7ft2+x+7ft2+Ramsey+Grey+-+Bridgemere24-04-2024-14-00-25.jpg","black":"https://assets.greenhousepeople.co.uk/images/products/original/7ft2+x+7ft2+Ramsey+Black+-+Oxford+South24-04-2024-14-00-55.jpg"}};
+const COLOURS = [
+ {id:'white',      name:'White',           hex:'#F4F5F2', premium:false},
+ {id:'black',      name:'Black',           hex:'#2A2C2E', premium:true},
+ {id:'grey',       name:'Grey',            hex:'#74797D', premium:true},
+ {id:'golden-oak', name:'Golden Oak',      hex:'#A06A32', premium:true, wood:true},
+ {id:'irish-oak',  name:'Irish Oak',       hex:'#5E3A1E', premium:true, wood:true},
+ {id:'chartwell',  name:'Chartwell Green', hex:'#9DB1A0', premium:true}
+];
+
+// Standard (no-cost) roof finishes by the range's standard roof system
+const STD_FINISH = {
+ 'Polycarbonate':              ['Opal','Bronze / Opal','Clear','Bronze'],
+ 'Leka Tapco Slate (included)':['Slate Grey','Slate Black','Brick Red'],
+ 'Flat EPDM Insulated':        ['EPDM Black'],
+ 'Flat 60mm EPDM Insulated':   ['EPDM Black'],
+ 'Pent (standard)':            ['Opal','Bronze / Opal','Clear','Bronze']
+};
+const UPG_FINISH = {
+ 'Tile Effect':      ['Tile Effect Black','Tile Effect Grey'],
+ 'Leka Tapco Slate': ['Slate Grey','Slate Black','Brick Red']
+};
+
+
+const SWATCH = 'https://www.nordicgardenbuildings.com/img/colours/';
+const SWFILE = {white:'white.jpeg',black:'black.jpeg',grey:'grey.jpeg','golden-oak':'golden-oak.jpeg',
+ 'irish-oak':'irish-oak.jpeg',chartwell:'chartwell-green.jpeg'};
+// Neutral inline placeholder — shown only if both image sources fail.
+const PLACEHOLDER = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(
+ `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240"><rect width="320" height="240" fill="#eff2f1"/>`+
+ `<g fill="none" stroke="#b6c2be" stroke-width="4" stroke-linejoin="round">`+
+ `<path d="M60 130 L160 72 L260 130"/><path d="M82 122 V174 H238 V122"/><rect x="140" y="132" width="40" height="42"/></g>`+
+ `<text x="160" y="205" font-family="sans-serif" font-size="13" fill="#93a29d" text-anchor="middle">Image coming soon</text></svg>`);
+
+/* Two-step fallback: Greenhouse People CDN -> Nordic's own image -> inline placeholder. */
+function imgErr(i){
+ if (i.dataset.fb){ i.src = i.dataset.fb; i.dataset.fb = ''; }
+ else { i.onerror = null; i.src = PLACEHOLDER; }
+}
+window.imgErr = imgErr;
+
+// Hero for the current selection: use a colour-accurate shot only where one genuinely exists,
+// otherwise fall back to the range's standard image (never mis-represent a colour).
+function roofFam(){
+ const r=R(); const mp=t=>{if(!t)return '';if(/Polycarb/i.test(t))return 'poly';if(/Tile/i.test(t))return 'tile';if(/Leka/i.test(t))return 'leka';if(/Flat|EPDM/i.test(t))return 'flat';if(/Pent/i.test(t))return 'pent';return '';};
+ return (r.roofUpgrade && S.roofUp) ? mp(r.roofUpgrade) : mp(r.stdRoof);
+}
+function installCell(rid,colour){ return (colour && typeof NGB_INSTALL!=='undefined' && NGB_INSTALL[rid]) ? NGB_INSTALL[rid][colour] : null; }
+function isInstall(rid,colour){ return !!installCell(rid,colour); }
+function heroSrc(rid, colour){
+ const c=installCell(rid,colour);
+ if (c) return c[roofFam()] || c._default || Object.values(c)[0];
+ if (colour && typeof NGB_TGP!=='undefined' && NGB_TGP[rid] && NGB_TGP[rid][colour]) return NGB_TGP[rid][colour];
+ const m = NGB_IMAGES[rid]; if (!m) return PLACEHOLDER;
+ if (colour && m.byColour && m.byColour[colour]) return m.byColour[colour];
+ return m.src;
+}
+function heroIsColourMatched(rid, colour){
+ if (isInstall(rid,colour)) return true;
+ if (colour && typeof NGB_TGP!=='undefined' && NGB_TGP[rid] && NGB_TGP[rid][colour]) return true;
+ const m = NGB_IMAGES[rid];
+ return !!(m && m.byColour && colour && m.byColour[colour]);
+}
+
+const D = NGB_PRICES;
+const S = { range:null, size:null, colour:null, roofUp:false, roofFinish:null,
+            vinyl:false, base:false, blinds:0, winOpen:0, winFixed:0,
+            store:'none', doors:0, panel:0, tgPanel:0, finial:0 };
+
+const gbp = n => '£' + Math.round(n).toLocaleString('en-GB');
+const R  = () => D.ranges[S.range];
+const V  = () => R().variants[S.size];
+const isColour = () => S.colour && S.colour !== 'white';
+const hasUpgrade = () => !!R().roofUpgrade;
+
+function mmToFt(mm){
+ const t = Math.round(mm/25.4), f = Math.floor(t/12), i = t%12;
+ return f + "ft" + (i ? " " + i + "in" : "");
+}
+function dims(str){
+ const p = String(str).split(/\s*x\s*/).map(Number);
+ return p.length===2 && p.every(n=>!isNaN(n)) ? mmToFt(p[0]) + " × " + mmToFt(p[1]) : null;
+}
+function fromPrice(r){ return Math.min(...r.variants.map(v=>v.white)); }
+
+/* ---------------------------------------------------------------- pricing */
+// Ultimate Package = building + roof upgrade (if the range has one) + vinyl + base,
+// sold at the published package price. Verified against the price list for all variants.
+function coreComplete(){
+ return (!hasUpgrade() || S.roofUp) && S.vinyl && S.base;
+}
+function price(){
+ const v = V(), c = isColour();
+ const building = c ? v.colour : v.white;
+ const items = [], full = coreComplete();
+
+ items.push({l:R().name, s:v.size+'mm · '+(c?COLOURS.find(x=>x.id===S.colour).name:'White'), v:building});
+
+ if (hasUpgrade()){
+   if (S.roofUp) items.push({l:R().roofUpgrade+' roof', s:S.roofFinish, v:v.roof, core:true});
+   else items.push({l:R().stdRoof+' roof', s:S.roofFinish, v:0, inc:true});
+ } else {
+   items.push({l:R().stdRoof, s:S.roofFinish, v:0, inc:true});
+ }
+ if (S.vinyl) items.push({l:'Vinyl flooring', s:'Fitted throughout', v:v.vinyl, core:true});
+ if (S.base)  items.push({l:'Concrete base',  s:'Ext. '+v.ext+'mm', v:v.base, core:true});
+
+ let coreRRP = building + (hasUpgrade()&&S.roofUp ? v.roof : 0) + (S.vinyl?v.vinyl:0) + (S.base?v.base:0);
+ let coreNet = full ? (c ? v.cUlt : v.wUlt) : coreRRP;
+
+ const ex = [], A = D.accessories;
+ const bl = A.blinds[S.range] && A.blinds[S.range][v.ext.replace(/\s/g,'')];
+ if (S.blinds && bl) ex.push({l:'Integral blinds', s:'Glass-to-ground units', v:bl*S.blinds, q:S.blinds});
+ if (S.winOpen)  ex.push({l:'Opening side window', s:c?'Colour':'White', q:S.winOpen,
+                          v:(c?A.windowOpenColour:A.windowOpenWhite)*S.winOpen});
+ if (S.winFixed) ex.push({l:'Fixed glass-to-ground window', s:c?'Colour':'White', q:S.winFixed,
+                          v:(c?A.windowFixedColour:A.windowFixedWhite)*S.winFixed});
+ if (S.store!=='none'){
+   const k = S.store==='1200' ? (c?A.store12Colour:A.store12White) : (c?A.store18Colour:A.store18White);
+   ex.push({l:'Attached storage room', s:S.store+'mm · '+(c?'Colour':'White'), v:k});
+ }
+ if (S.doors)   ex.push({l:'Additional double doors', s:c?'Colour':'White', q:S.doors,
+                         v:(c?A.doorsColour:A.doorsWhite)*S.doors});
+ if (S.panel)   ex.push({l:'Plain PVCu panel', s:c?'Colour':'White', q:S.panel,
+                         v:(c?A.panelColour:A.panelWhite)*S.panel});
+ if (S.tgPanel) ex.push({l:'Tongue & groove PVCu panel', s:c?'Colour':'White', q:S.tgPanel,
+                         v:(c?A.tgPanelColour:A.tgPanelWhite)*S.tgPanel});
+ if (S.finial)  ex.push({l:'Finial', s:c?'Colour':'White', q:S.finial,
+                         v:(c?A.finialColour:A.finialWhite)*S.finial});
+
+ const exTotal = ex.reduce((a,b)=>a+b.v,0);
+ return {items, ex, full, coreRRP, coreNet, exTotal,
+         total: coreNet+exTotal, rrp: coreRRP+exTotal, saving: coreRRP-coreNet};
+}
+// What the customer would pay / save by completing the Ultimate Package
+function pkgTeaser(){
+ if (coreComplete() || !S.colour) return null;
+ const v = V(), c = isColour();
+ const need = [];
+ if (hasUpgrade() && !S.roofUp) need.push(R().roofUpgrade+' roof');
+ if (!S.vinyl) need.push('vinyl flooring');
+ if (!S.base)  need.push('concrete base');
+ const rrp = (c?v.colour:v.white) + (hasUpgrade()?v.roof:0) + v.vinyl + v.base;
+ const net = c ? v.cUlt : v.wUlt;
+ return {need, net, saving: rrp-net, addCost: net - price().coreNet};
+}
+
+/* ------------------------------------------------------------------ render */
+const el = document.getElementById('steps');
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function stepBox(n, title, hint, inner, locked){
+ return `<section class="step${locked?' locked':''}">
+  <h2><span class="num">${n}</span>${title}</h2><p class="hint">${hint}</p>${inner}</section>`;
+}
+function qty(k, val){
+ return `<div class="qty"><button data-q="${k}" data-d="-1" type="button">−</button>
+  <span>${val}</span><button data-q="${k}" data-d="1" type="button">+</button></div>`;
+}
+
+function render(){
+ let h = '';
+
+ /* 1 — range (collapses to a compact bar once chosen) */
+ if (!S.range){
+  h += stepBox(1,'Choose your range','Ten Nordic ranges, each with its own profile and roof style.',
+   `<div class="grid g-range">` + Object.values(D.ranges).map(r=>`
+    <button class="opt" data-r="${r.id}" aria-pressed="${S.range===r.id}">
+     <img class="im" loading="lazy" alt="${esc(NGB_IMAGES[r.id].alt)}"
+      src="${NGB_IMAGES[r.id].thumb}" data-fb="${NGB_IMAGES[r.id].fb}" onerror="imgErr(this)">
+     ${["broadway","manhattan"].includes(r.id)?'<span class="tag pop">★ Most popular</span>':'<span class="tag">'+esc(r.type)+'</span>'}
+     <span class="t">${esc(r.name)}</span>
+     <span class="s">${esc(r.profile)}</span>
+     <span class="p">from ${gbp(fromPrice(r))}</span>
+    </button>`).join('') + `</div>`);
+ } else {
+  const rr=R();
+  h += `<section class="step chosen"><div class="chosenbar">
+    <img src="${NGB_IMAGES[rr.id].thumb}" data-fb="${NGB_IMAGES[rr.id].fb}" onerror="imgErr(this)" alt="${esc(rr.name)}">
+    <div class="cb"><span class="cn">${esc(rr.name)}</span><span class="cs">${esc(rr.type)} · ${esc(rr.profile)}</span></div>
+    <button class="chg" data-rc="1" type="button">Change range</button></div></section>`;
+ }
+
+ /* 2 — size */
+ if (S.range){
+  const r = R();
+  const matched = heroIsColourMatched(S.range, S.colour);
+  const cname = S.colour ? COLOURS.find(x=>x.id===S.colour).name : '';
+  h += stepBox(2,'Choose your size',esc(r.desc)+' Sizes shown are the building; the external base is larger.',
+   `<div class="heroWrap"><img class="hero" alt="${esc(NGB_IMAGES[r.id].alt)}"
+     src="${heroSrc(S.range, S.colour)}" data-fb="${NGB_IMAGES[r.id].fb}" onerror="imgErr(this)">
+     <span class="heroCap">${matched
+       ? esc(r.name)+' in '+esc(cname)
+       : esc(r.name) + (NGB_IMAGES[r.id].shownIn ? ' — shown in '+esc(NGB_IMAGES[r.id].shownIn) : '')}</span>
+    </div>
+    <div class="grid g-size">` + r.variants.map((v,i)=>{
+    const ft = dims(v.size);
+    return `<button class="opt" data-s="${i}" aria-pressed="${S.size===i}">
+      <span class="t">${esc(v.size)}mm</span>
+      ${ft?`<span class="s">${esc(ft)}</span>`:''}
+      <span class="s">Base ${esc(v.ext)}mm</span>
+      <span class="p">from ${gbp(v.white)}</span></button>`;
+   }).join('') + `</div>`);
+ }
+
+ /* 3 — colour */
+ if (S.range && S.size!==null){
+  const v = V(), up = v.colour - v.white;
+  h += stepBox(3,'Choose your colour','White is our standard finish. Every other colour carries the same uplift for this size.',
+   `<div class="grid g-col">` + COLOURS.map(c=>`
+    <button class="opt" data-c="${c.id}" aria-pressed="${S.colour===c.id}">
+     <span class="sw" style="background-color:${c.hex};background-image:url('${SWATCH}${SWFILE[c.id]}')"></span>
+     <span class="t">${esc(c.name)}</span>
+     <span class="p${c.premium?'':' free'}">${c.premium?'+'+gbp(up):'Included'}</span>
+    </button>`).join('') + `</div>`);
+ }
+
+ /* 4 — roof */
+ if (S.range && S.size!==null && S.colour){
+  const r = R(), v = V();
+  let inner = '';
+  if (hasUpgrade()){
+   inner = `<div class="grid g-roof">
+    <button class="opt" data-ru="0" aria-pressed="${!S.roofUp}">
+     <span class="t">${esc(r.stdRoof)}</span><span class="s">Standard roof system</span>
+     <span class="p free">Included</span></button>
+    <button class="opt" data-ru="1" aria-pressed="${S.roofUp}">
+     <span class="t">${esc(r.roofUpgrade)}</span><span class="s">Premium upgrade</span>
+     <span class="p">+${gbp(v.roof)}</span></button></div>`;
+  } else {
+   inner = `<div class="grid g-roof"><button class="opt" data-ru="0" aria-pressed="true">
+     <span class="t">${esc(r.stdRoof)}</span><span class="s">Standard on this range</span>
+     <span class="p free">Included</span></button></div>`;
+  }
+  const fin = (S.roofUp ? UPG_FINISH[r.roofUpgrade] : STD_FINISH[r.stdRoof]) || [];
+  if (fin.length > 1){
+   inner += `<p class="hint" style="margin:15px 0 9px 0"><b>Roof finish</b> — no additional cost</p>
+    <div class="grid g-roof">` + fin.map(f=>`
+     <button class="opt" data-rf="${esc(f)}" aria-pressed="${S.roofFinish===f}">
+      <span class="t">${esc(f)}</span><span class="p free">Included</span></button>`).join('') + `</div>`;
+  }
+  h += stepBox(4,'Choose your roof', hasUpgrade()
+    ? 'This range offers a premium roof upgrade.'
+    : 'This range is supplied with one roof system as standard.', inner);
+ }
+
+ /* 5 — options */
+ if (S.range && S.size!==null && S.colour){
+  const v = V(), c = isColour(), A = D.accessories, p = price();
+  const bl = A.blinds[S.range] && A.blinds[S.range][v.ext.replace(/\s/g,'')];
+  let o = `<div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(252px,1fr))">
+   <label class="check${S.vinyl?' on':''}"><input type="checkbox" data-k="vinyl" ${S.vinyl?'checked':''}>
+    <span><span class="t">Vinyl flooring</span><span class="s">Fitted throughout your building</span>
+    <span class="p">+${gbp(v.vinyl)}</span></span></label>
+   <label class="check${S.base?' on':''}"><input type="checkbox" data-k="base" ${S.base?'checked':''}>
+    <span><span class="t">Concrete base</span><span class="s">Laid to ${esc(v.ext)}mm, ready for install</span>
+    <span class="p">+${gbp(v.base)}</span></span></label>`;
+  if (bl) o += `<label class="check${S.blinds?' on':''}"><input type="checkbox" data-k="blinds" ${S.blinds?'checked':''}>
+    <span><span class="t">Integral blinds</span><span class="s">Sealed within the glass units — no dusting</span>
+    <span class="p">+${gbp(bl)}</span></span></label>`;
+  o += `</div>
+   <p class="hint" style="margin:17px 0 9px 0"><b>Additional windows, doors &amp; panels</b></p>
+   <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(252px,1fr))">
+    <div class="check${S.winOpen?' on':''}"><span><span class="t">Opening side window</span>
+     <span class="s">${c?'Colour':'White'} · ${gbp(c?A.windowOpenColour:A.windowOpenWhite)} each</span>${qty('winOpen',S.winOpen)}</span></div>
+    <div class="check${S.winFixed?' on':''}"><span><span class="t">Fixed glass-to-ground window</span>
+     <span class="s">${c?'Colour':'White'} · ${gbp(c?A.windowFixedColour:A.windowFixedWhite)} each</span>${qty('winFixed',S.winFixed)}</span></div>
+    <div class="check${S.doors?' on':''}"><span><span class="t">Additional double doors</span>
+     <span class="s">${c?'Colour':'White'} · ${gbp(c?A.doorsColour:A.doorsWhite)} each</span>${qty('doors',S.doors)}</span></div>
+    <div class="check${S.panel?' on':''}"><span><span class="t">Plain PVCu panel</span>
+     <span class="s">${c?'Colour':'White'} · ${gbp(c?A.panelColour:A.panelWhite)} each</span>${qty('panel',S.panel)}</span></div>
+    <div class="check${S.tgPanel?' on':''}"><span><span class="t">Tongue &amp; groove panel</span>
+     <span class="s">${c?'Colour':'White'} · ${gbp(c?A.tgPanelColour:A.tgPanelWhite)} each</span>${qty('tgPanel',S.tgPanel)}</span></div>
+    <div class="check${S.finial?' on':''}"><span><span class="t">Finial</span>
+     <span class="s">${c?'Colour':'White'} · ${gbp(c?A.finialColour:A.finialWhite)} each</span>${qty('finial',S.finial)}</span></div>
+   </div>
+   <p class="hint" style="margin:17px 0 9px 0"><b>Attached storage room</b></p>
+   <div class="grid g-roof">
+    <button class="opt" data-st="none" aria-pressed="${S.store==='none'}"><span class="t">Not required</span>
+     <span class="p free">—</span></button>
+    <button class="opt" data-st="1200" aria-pressed="${S.store==='1200'}"><span class="t">1200mm store</span>
+     <span class="p">+${gbp(c?A.store12Colour:A.store12White)}</span></button>
+    <button class="opt" data-st="1800" aria-pressed="${S.store==='1800'}"><span class="t">1800mm store</span>
+     <span class="p">+${gbp(c?A.store18Colour:A.store18White)}</span></button>
+   </div>`;
+
+  const t = pkgTeaser();
+  if (t) o += `<div class="pkg"><div class="h">★ Ultimate Package — save ${gbp(t.saving)}</div>
+    <div class="b">Add ${t.need.join(', ')} and your building becomes an Ultimate Package at
+     <b>${gbp(t.net)}</b> — that's ${gbp(t.saving)} off the individual prices.</div>
+    <button type="button" id="addPkg">Add the Ultimate Package (+${gbp(t.addCost)})</button></div>`;
+  else if (coreComplete()) o += `<div class="pkg"><div class="h">★ Ultimate Package applied</div>
+    <div class="b">Your roof, flooring and base are priced together as an Ultimate Package,
+     saving you <b>${gbp(p.saving)}</b>.</div></div>`;
+
+  h += stepBox(5,'Add your options','Everything here is optional. Free professional installation is included as standard.', o);
+ }
+
+ el.innerHTML = h;
+ summary();
+ if(typeof updateVidBtn==="function") updateVidBtn();
+}
+
+/* ----------------------------------------------------------------- summary */
+function line(l, s, v, cls){
+ return `<div class="li"><span class="l"><b>${esc(l)}</b>${s?esc(s):''}</span>
+  <span class="v ${cls||''}">${v}</span></div>`;
+}
+function summary(){
+ const sub = document.getElementById('sumSub'), body = document.getElementById('sumBody'),
+       tot = document.getElementById('total'), rrpL = document.getElementById('rrpLine'),
+       savL = document.getElementById('savingLine'), btn = document.getElementById('quoteBtn');
+
+ if (!S.range || S.size===null || !S.colour){
+  sub.textContent = S.range ? (S.size===null ? 'Choose a size' : 'Choose a colour') : 'Choose a range to begin';
+  body.innerHTML = '<div class="empty">Your specification and price will appear here as you build.</div>';
+  tot.textContent = '—'; rrpL.textContent=''; savL.innerHTML=''; btn.disabled = true;
+  return;
+ }
+ const p = price(), v = V();
+ sub.textContent = R().name + ' · ' + v.size + 'mm';
+
+ const cn = COLOURS.find(x=>x.id===S.colour).name;
+ const matched = heroIsColourMatched(S.range, S.colour);
+ let h = `<div class="pv" style="margin:-16px -18px 13px">
+   <img class="sumHero" alt="${esc(NGB_IMAGES[S.range].alt)}" src="${heroSrc(S.range,S.colour)}"
+     data-fb="${NGB_IMAGES[S.range].fb}" onerror="imgErr(this)">
+   <span class="pvCap">${matched ? esc(cn)
+     : 'Shown in '+esc(NGB_IMAGES[S.range].shownIn||'a standard finish')}</span>
+  </div>`;
+ h += p.items.map(i =>
+   line(i.l, i.s, i.inc ? 'Included' : (p.full && i.core ? '<span class="strike">'+gbp(i.v)+'</span>' : gbp(i.v)),
+        i.inc ? 'inc' : '')).join('');
+
+ if (p.full) h += `<div class="li"><span class="l"><b>Ultimate Package price</b>Roof, flooring &amp; base combined</span>
+   <span class="v" style="color:var(--save)">${gbp(p.coreNet)}</span></div>`;
+ if (p.ex.length){
+  h += `<div class="li" style="border:0;padding-top:11px"><span class="l" style="font-size:11px;
+   text-transform:uppercase;letter-spacing:.05em;font-weight:600">Optional extras</span><span></span></div>`;
+  h += p.ex.map(i => line(i.l + (i.q>1?' × '+i.q:''), i.s, gbp(i.v))).join('');
+ }
+ h += line('Delivery &amp; installation','Mainland UK','Included','inc');
+ body.innerHTML = h;
+
+ tot.textContent = gbp(p.total);
+ rrpL.innerHTML  = p.saving > 0 ? 'RRP <span class="strike">'+gbp(p.rrp)+'</span> inc. VAT' : 'inc. VAT';
+ savL.innerHTML  = p.saving > 0 ? `<div class="saving">You save ${gbp(p.saving)} with the Ultimate Package</div>` : '';
+ btn.disabled = false;
+}
+
+/* ------------------------------------------------------------------ events */
+function resetOpts(){
+ Object.assign(S,{vinyl:false,base:false,blinds:0,winOpen:0,winFixed:0,store:'none',
+                  doors:0,panel:0,tgPanel:0,finial:0});
+}
+function defaultFinish(){
+ const r = R();
+ const f = (S.roofUp ? UPG_FINISH[r.roofUpgrade] : STD_FINISH[r.stdRoof]) || [];
+ S.roofFinish = f[0] || r.stdRoof;
+}
+
+el.addEventListener('click', e => {
+ const b = e.target.closest('button'); if (!b) return;
+
+ if (b.dataset.rc){ S.range=null; S.size=null; S.colour=null; S.roofUp=false; resetOpts(); window.scrollTo({top:0,behavior:'smooth'}); return render(); }
+ if (b.dataset.r){
+  if (S.range !== b.dataset.r){
+   S.range = b.dataset.r; S.size = null; S.colour = null; S.roofUp = false; resetOpts();
+  }
+  return render();
+ }
+ if (b.dataset.s !== undefined && b.dataset.s !== ''){
+  S.size = +b.dataset.s; resetOpts();
+  if (!S.roofFinish) defaultFinish();
+  return render();
+ }
+ if (b.dataset.c){ S.colour = b.dataset.c; defaultFinish(); return render(); }
+ if (b.dataset.ru !== undefined){ S.roofUp = b.dataset.ru === '1'; defaultFinish(); return render(); }
+ if (b.dataset.rf){ S.roofFinish = b.dataset.rf; return render(); }
+ if (b.dataset.st){ S.store = b.dataset.st; return render(); }
+
+ if (b.dataset.q){
+  const k = b.dataset.q, d = +b.dataset.d;
+  S[k] = Math.max(0, Math.min(20, S[k] + d));
+  return render();
+ }
+ if (b.id === 'addPkg'){
+  if (hasUpgrade()) S.roofUp = true;
+  S.vinyl = true; S.base = true; defaultFinish();
+  return render();
+ }
+});
+el.addEventListener('change', e => {
+ const i = e.target; if (!i.dataset.k) return;
+ S[i.dataset.k] = i.dataset.k === 'blinds' ? (i.checked ? 1 : 0) : i.checked;
+ render();
+});
+
+/* -------------------------------------------------------------------- lead */
+const modal = document.getElementById('modal');
+function specText(){
+ const p = price(), v = V(), c = COLOURS.find(x=>x.id===S.colour);
+ let h = line('Range', R().type, esc(R().name));
+ h += line('Size', 'Base ' + v.ext + 'mm', v.size + 'mm');
+ h += line('Colour','', esc(c.name));
+ h += line('Roof', S.roofFinish, S.roofUp ? esc(R().roofUpgrade) : esc(R().stdRoof));
+ p.items.filter(i=>i.core).forEach(i => h += line(i.l,'','Yes'));
+ p.ex.forEach(i => h += line(i.l + (i.q>1?' × '+i.q:''),'', gbp(i.v)));
+ if (p.full) h += line('Ultimate Package','You save '+gbp(p.saving),'Applied');
+ h += line('Total price','inc. VAT, delivery &amp; installation', gbp(p.total));
+ return h;
+}
+document.getElementById('quoteBtn').onclick = () => {
+ document.getElementById('mSpec').innerHTML = specText();
+ document.getElementById('formStage').style.display = '';
+ document.getElementById('doneStage').style.display = 'none';
+ modal.classList.add('on');
+};
+document.getElementById('closeM').onclick = () => modal.classList.remove('on');
+modal.onclick = e => { if (e.target === modal) modal.classList.remove('on'); };
+document.getElementById('printBtn').onclick = () => window.print();
+document.getElementById('againBtn').onclick = () => { modal.classList.remove('on'); };
+
+document.getElementById('leadForm').onsubmit = e => {
+ e.preventDefault();
+ const p = price(), v = V();
+ const payload = {
+  submittedAt: new Date().toISOString(),
+  priceList: D.priceList,
+  lead: Object.fromEntries(new FormData(e.target).entries()),
+  configuration: {
+   range: R().name, rangeId: S.range, type: R().type,
+   modelSize: v.size + 'mm', externalBase: v.ext + 'mm',
+   colour: COLOURS.find(x=>x.id===S.colour).name,
+   roof: (S.roofUp ? R().roofUpgrade : R().stdRoof), roofFinish: S.roofFinish,
+   vinylFlooring: S.vinyl, concreteBase: S.base, integralBlinds: !!S.blinds,
+   openingWindows: S.winOpen, fixedWindows: S.winFixed, storageRoom: S.store,
+   additionalDoors: S.doors, plainPanels: S.panel, tgPanels: S.tgPanel, finials: S.finial,
+   ultimatePackage: p.full
+  },
+  pricing: { rrp: p.rrp, total: p.total, saving: p.saving, currency: 'GBP', vatIncluded: true }
+ };
+
+ /* ===================== CONNECT YOUR CRM / EMAIL HERE =====================
+    Replace the console.log below with a POST to your endpoint, e.g.:
+
+      fetch('https://www.nordicgardenbuildings.com/api/quote', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(payload)
+      });
+
+    The payload above contains the full lead + configuration + pricing.
+    ======================================================================== */
+ console.log('NGB QUOTE REQUEST', payload);
+ window.dispatchEvent(new CustomEvent('ngb:quote', {detail: payload}));
+ if (window.dataLayer) window.dataLayer.push({event:'ngb_quote_request', value:p.total, currency:'GBP'});
+
+ document.getElementById('formStage').style.display = 'none';
+ document.getElementById('doneStage').style.display = '';
+};
+
+document.getElementById('plDate').textContent = D.priceList;
+
+/* ---- customer video testimonials ---- */
+function vidsFor(rid){ return (typeof NGB_VIDEOS!=='undefined' && (NGB_VIDEOS[rid] && NGB_VIDEOS[rid].length ? NGB_VIDEOS[rid] : NGB_VIDEOS._general)) || []; }
+function updateVidBtn(){
+ const b=document.getElementById('vidBtn'); if(!b) return;
+ if(!S.range){ b.style.display='none'; return; }
+ const vs=vidsFor(S.range); if(!vs.length){ b.style.display='none'; return; }
+ const own = typeof NGB_VIDEOS!=='undefined' && NGB_VIDEOS[S.range] && NGB_VIDEOS[S.range].length;
+ document.getElementById('vidLbl').textContent = own ? ('Watch '+vs[0].n.split(' ')[0]+' talk about their '+R().name.split(' ')[0]) : 'Watch real customer stories';
+ b.style.display='flex';
+}
+function playVid(v){
+ const p=document.getElementById('vPlayer');
+ p.poster='https://image.mux.com/'+v.id+'/thumbnail.jpg';
+ p.src='https://stream.mux.com/'+v.id+'/low.mp4';
+ document.getElementById('vName').textContent=v.n; p.play().catch(()=>{});
+ [...document.querySelectorAll('#vStrip img')].forEach(im=>im.classList.toggle('sel', im.dataset.id===v.id));
+}
+document.getElementById('vidBtn').onclick=()=>{
+ const vs=vidsFor(S.range); if(!vs.length) return;
+ document.getElementById('vStrip').innerHTML = vs.map(v=>`<img data-id="${v.id}" src="https://image.mux.com/${v.id}/thumbnail.jpg?width=120" alt="${esc(v.n)}" title="${esc(v.n)}">`).join('');
+ document.querySelectorAll('#vStrip img').forEach(im=>im.onclick=()=>{const v=vs.find(x=>x.id===im.dataset.id); playVid(v);});
+ playVid(vs[0]); document.getElementById('vmodal').classList.add('on');
+};
+document.getElementById('vClose').onclick=()=>{const p=document.getElementById('vPlayer');p.pause();document.getElementById('vmodal').classList.remove('on');};
+document.getElementById('vmodal').onclick=e=>{if(e.target.id==='vmodal'){document.getElementById('vPlayer').pause();document.getElementById('vmodal').classList.remove('on');}};
+
+render();
+</script>
+</body>
+</html>
