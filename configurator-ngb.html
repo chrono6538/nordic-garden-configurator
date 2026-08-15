@@ -1,0 +1,226 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nordic Garden Buildings — Design Your Room (prototype)</title>
+<style>
+:root{--g:#1f4d3a;--g2:#2c6b50;--gold:#b9975b;--ink:#1b2420;--mut:#6c7972;--line:#e4e9e5;--bg:#f5f7f5;--warm:#faf8f4}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+header{background:linear-gradient(135deg,var(--g),var(--g2));color:#fff;padding:30px 0 24px}
+header .tag{font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.8}
+header h1{margin:6px 0 4px;font-size:27px;letter-spacing:-.02em}
+header p{margin:0;opacity:.9;max-width:640px;font-size:14.5px}
+.proto{display:inline-block;margin-left:8px;background:var(--gold);color:#3a2c10;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:20px;vertical-align:middle;letter-spacing:.06em}
+.models{display:flex;gap:8px;overflow-x:auto;padding:16px 0 4px}
+.mchip{flex:0 0 auto;border:1px solid var(--line);background:#fff;color:var(--g2);font-weight:600;font-size:13.5px;padding:8px 14px;border-radius:22px;cursor:pointer;white-space:nowrap}
+.mchip:hover{background:#eef4f0}.mchip.on{background:var(--g);color:#fff;border-color:var(--g)}
+.grid2{display:grid;grid-template-columns:1.05fr .95fr;gap:26px;margin:18px 0 8px;align-items:start}
+@media(max-width:860px){.grid2{grid-template-columns:1fr}}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.visual{position:sticky;top:14px}
+.plan-wrap{background:var(--warm);border:1px solid var(--line);border-radius:12px;padding:10px}
+svg.plan{width:100%;height:auto;display:block}
+.selname{font-size:19px;font-weight:700;color:var(--g);margin:14px 2px 2px}
+.selmeta{color:var(--mut);font-size:13.5px;margin:0 2px}
+h3{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--g2);margin:20px 0 9px}
+.sizewrap{overflow-x:auto}
+table.sz{border-collapse:collapse;font-size:12.5px;min-width:100%}
+table.sz th{background:#f2f8f4;color:var(--g);padding:6px 8px;font-weight:700;font-size:11.5px;white-space:nowrap;border:1px solid var(--line)}
+table.sz td{padding:0;border:1px solid var(--line);text-align:center}
+table.sz td.corner{background:#f2f8f4}
+.cell{width:100%;height:100%;padding:7px 8px;background:#fff;border:0;cursor:pointer;font:inherit;color:var(--ink);white-space:nowrap}
+.cell:hover{background:#eaf3ee}
+.cell.on{background:var(--g);color:#fff;font-weight:700}
+.cell.na{color:#c3cbc5;cursor:default;background:#fafbfa}
+.rowlab{background:#f2f8f4;color:var(--g);font-weight:700;padding:6px 9px;font-size:11.5px;white-space:nowrap}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{border:1px solid var(--line);background:#fff;border-radius:9px;padding:8px 12px;cursor:pointer;font-size:13px;font-weight:600;color:var(--ink)}
+.opt:hover{border-color:var(--g2)}.opt.on{border-color:var(--g);background:#eef4f0;color:var(--g);box-shadow:inset 0 0 0 1px var(--g)}
+.opt .sub{display:block;font-size:11px;color:var(--mut);font-weight:400}
+.swatches{display:flex;flex-wrap:wrap;gap:10px}
+.sw{width:46px;text-align:center;cursor:pointer}
+.sw .dot{width:44px;height:44px;border-radius:10px;border:2px solid #fff;box-shadow:0 0 0 1px var(--line);margin:0 auto}
+.sw.on .dot{box-shadow:0 0 0 2px var(--g)}
+.sw span{display:block;font-size:10px;color:var(--mut);margin-top:3px;line-height:1.15}
+.price{margin-top:8px;background:var(--warm);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.price .lab{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.05em}
+.price .big{font-size:34px;font-weight:800;color:var(--g);letter-spacing:-.02em;line-height:1.05}
+.price .big small{font-size:14px;font-weight:600;color:var(--mut)}
+.ult{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)}
+.ult .row{display:flex;justify-content:space-between;font-size:13px;margin:3px 0;color:var(--ink)}
+.ult .row.tot{font-weight:800;color:var(--g);font-size:16px;margin-top:6px}
+.ult .mut{color:var(--mut)}
+.cta{display:block;width:100%;margin-top:14px;background:var(--g);color:#fff;border:0;border-radius:10px;padding:13px;font-size:15px;font-weight:700;cursor:pointer}
+.cta:hover{background:var(--g2)}
+.finehint{font-size:11.5px;color:var(--mut);margin-top:8px;text-align:center}
+.std{margin:26px 0 40px}
+.std h2{font-size:18px;color:var(--g);text-align:center;margin:0 0 4px}
+.std p.s{text-align:center;color:var(--mut);margin:0 0 16px;font-size:13.5px}
+.stdgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.stditem{background:#fff;border:1px solid var(--line);border-radius:11px;padding:14px 16px}
+.stditem b{display:block;color:var(--g);font-size:14px}
+.stditem span{font-size:12.5px;color:var(--mut)}
+.foot{color:var(--mut);font-size:12px;padding:16px 0 40px;border-top:1px solid var(--line)}
+</style></head><body>
+<header><div class="wrap">
+<div class="tag">Nordic Garden Buildings</div>
+<h1>Design your garden room <span class="proto">PROTOTYPE</span></h1>
+<p>Pick a model, choose the exact size from the grid, then your roof and colour — the floor plan and price update live. Modelled on the best configurators in the market, built on NGB's real 2026 pricing.</p>
+</div></header>
+<div class="wrap">
+<div class="models" id="models"></div>
+<div class="grid2">
+  <div class="card visual">
+    <div class="plan-wrap"><svg class="plan" id="plan" viewBox="0 0 480 360"></svg></div>
+    <div class="selname" id="selname"></div>
+    <div class="selmeta" id="selmeta"></div>
+    <h3>Roof</h3><div class="opts" id="roofopts"></div>
+    <h3>Colour &amp; finish</h3><div class="swatches" id="swatches"></div>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:2px">Choose your size <span style="text-transform:none;letter-spacing:0;color:var(--mut);font-weight:400">— depth (down) × width (across), click a cell</span></h3>
+    <div class="sizewrap"><div id="sizegrid"></div></div>
+    <div class="price">
+      <div class="lab" id="priceLab">Building price — as configured</div>
+      <div class="big" id="priceBig">£—</div>
+      <div class="ult" id="ultbox"></div>
+      <button class="cta" onclick="quote()">Get this quote →</button>
+      <div class="finehint">Prototype — figures from NGB's 1 July 2026 price list. Not a live order form.</div>
+    </div>
+  </div>
+</div>
+<div class="std">
+  <h2>Included as standard with every Nordic room</h2>
+  <p class="s">The spec others sell as upgrades — already in the price.</p>
+  <div class="stdgrid">
+    <div class="stditem"><b>Insulated uPVC</b><span>Maintenance-free — never needs painting or treating</span></div>
+    <div class="stditem"><b>28mm double glazing</b><span>Warm, quiet, energy efficient all year</span></div>
+    <div class="stditem"><b>Concrete base included</b><span>Proper foundation, in the Ultimate price</span></div>
+    <div class="stditem"><b>Vinyl flooring</b><span>Finished floor, ready to use</span></div>
+    <div class="stditem"><b>FREE professional installation</b><span>Fitted by Nordic's own teams</span></div>
+    <div class="stditem"><b>10-year guarantee</b><span>Handmade in South Wales, 40+ years</span></div>
+  </div>
+</div>
+<div class="foot">Prototype concept for Nordic Garden Buildings. Pricing: 1 July 2026 list. "Building price" = the room in your chosen roof &amp; colour. "Ultimate Package" = building + vinyl floor + concrete base (and tile-roof upgrade where the range offers one), Nordic's all-in installed price. External footprint shown; internal size is ~200mm smaller each side.</div>
+</div>
+<script>
+const DATA={"Anglesey Pent":{"std":"Polycarbonate","upg":"Tile Effect","sizes":[{"code":"2500x1900","w":2500,"d":1900,"ew":2700,"ed":2100,"white":12249,"colour":15449,"upg":1590,"vinyl":300,"base":1350,"ultW":14349,"ultC":17299},{"code":"2800x1900","w":2800,"d":1900,"ew":3000,"ed":2100,"white":13299,"colour":16649,"upg":1590,"vinyl":350,"base":1350,"ultW":15349,"ultC":18449},{"code":"2800x2200","w":2800,"d":2200,"ew":3000,"ed":2400,"white":13949,"colour":17299,"upg":1590,"vinyl":400,"base":1450,"ultW":16099,"ultC":19199},{"code":"3400x1900","w":3400,"d":1900,"ew":3600,"ed":2100,"white":14549,"colour":17999,"upg":1590,"vinyl":425,"base":1550,"ultW":16749,"ultC":19949},{"code":"3400x2200","w":3400,"d":2200,"ew":3600,"ed":2400,"white":15599,"colour":19199,"upg":1590,"vinyl":475,"base":1550,"ultW":17749,"ultC":21099},{"code":"4000x1900","w":4000,"d":1900,"ew":4200,"ed":2100,"white":15599,"colour":19199,"upg":1590,"vinyl":500,"base":1550,"ultW":17799,"ultC":21149},{"code":"2800x2800","w":2800,"d":2800,"ew":3000,"ed":3000,"white":16149,"colour":19799,"upg":1590,"vinyl":500,"base":1550,"ultW":18299,"ultC":21699},{"code":"4000x2200","w":4000,"d":2200,"ew":4200,"ed":2400,"white":17299,"colour":21049,"upg":1590,"vinyl":575,"base":1650,"ultW":19549,"ultC":22999},{"code":"3400x2800","w":3400,"d":2800,"ew":3600,"ed":3000,"white":17899,"colour":21749,"upg":1590,"vinyl":625,"base":1750,"ultW":20199,"ultC":23799},{"code":"4600x2200","w":4600,"d":2200,"ew":4800,"ed":2400,"white":18949,"colour":22949,"upg":1590,"vinyl":650,"base":1750,"ultW":21199,"ultC":24899},{"code":"4000x2800","w":4000,"d":2800,"ew":4200,"ed":3000,"white":19549,"colour":23599,"upg":1590,"vinyl":725,"base":1850,"ultW":21949,"ultC":25699},{"code":"5200x2200","w":5200,"d":2200,"ew":5400,"ed":2400,"white":20599,"colour":24749,"upg":1590,"vinyl":750,"base":1800,"ultW":22899,"ultC":26699},{"code":"4600x2800","w":4600,"d":2800,"ew":4800,"ed":3000,"white":21249,"colour":25499,"upg":1590,"vinyl":825,"base":2000,"ultW":23749,"ultC":27649},{"code":"5200x2800","w":5200,"d":2800,"ew":5400,"ed":3000,"white":22899,"colour":27949,"upg":1590,"vinyl":950,"base":2100,"ultW":25449,"ultC":30149},{"code":"5650x2800","w":5650,"d":2800,"ew":5850,"ed":3000,"white":25099,"colour":30399,"upg":1590,"vinyl":1025,"base":2200,"ultW":27649,"ultC":32549}]},"Ashbrook Apex":{"std":"Leka Tapco Slate (included)","upg":"none","sizes":[{"code":"2800x2800","w":2800,"d":2800,"ew":3000,"ed":3000,"white":19999,"colour":24649,"upg":0,"vinyl":500,"base":1550,"ultW":20399,"ultC":24699},{"code":"3800x2800","w":3800,"d":2800,"ew":4000,"ed":3000,"white":23199,"colour":28499,"upg":0,"vinyl":700,"base":1850,"ultW":23799,"ultC":28699},{"code":"4800x2800","w":4800,"d":2800,"ew":5000,"ed":3000,"white":26299,"colour":32499,"upg":0,"vinyl":875,"base":2000,"ultW":26999,"ultC":32699},{"code":"5800x2800","w":5800,"d":2800,"ew":6000,"ed":3000,"white":29999,"colour":36849,"upg":0,"vinyl":1050,"base":2250,"ultW":30799,"ultC":37149}]},"Aspen Apex":{"std":"Polycarbonate","upg":"Leka Tapco Slate","sizes":[{"code":"2200x2000","w":2200,"d":2000,"ew":2400,"ed":2200,"white":15199,"colour":18899,"upg":980,"vinyl":275,"base":1450,"ultW":16549,"ultC":19999},{"code":"2200x2400","w":2200,"d":2400,"ew":2400,"ed":2600,"white":17349,"colour":21199,"upg":980,"vinyl":350,"base":1550,"ultW":18699,"ultC":22249},{"code":"2200x2800","w":2200,"d":2800,"ew":2400,"ed":3000,"white":18899,"colour":22899,"upg":980,"vinyl":400,"base":1550,"ultW":20199,"ultC":23899},{"code":"2200x3200","w":2200,"d":3200,"ew":2400,"ed":3400,"white":20349,"colour":24549,"upg":980,"vinyl":475,"base":1650,"ultW":21699,"ultC":25599}]},"Broadway Flat":{"std":"Flat EPDM Insulated","upg":"none","sizes":[{"code":"2800x1900","w":2800,"d":1900,"ew":3000,"ed":2100,"white":19499,"colour":23499,"upg":0,"vinyl":350,"base":1350,"ultW":19599,"ultC":23299},{"code":"2800x2200","w":2800,"d":2200,"ew":3000,"ed":2400,"white":20449,"colour":24399,"upg":0,"vinyl":400,"base":1450,"ultW":20649,"ultC":24299},{"code":"3400x1900","w":3400,"d":1900,"ew":3600,"ed":2100,"white":21899,"colour":26149,"upg":0,"vinyl":425,"base":1550,"ultW":22099,"ultC":25999},{"code":"3400x2200","w":3400,"d":2200,"ew":3600,"ed":2400,"white":22699,"colour":27849,"upg":0,"vinyl":475,"base":1550,"ultW":22849,"ultC":27649},{"code":"4000x1900","w":4000,"d":1900,"ew":4200,"ed":2100,"white":23399,"colour":28649,"upg":0,"vinyl":500,"base":1550,"ultW":23549,"ultC":28399},{"code":"2800x2800","w":2800,"d":2800,"ew":3000,"ed":3000,"white":22699,"colour":27849,"upg":0,"vinyl":500,"base":1550,"ultW":22899,"ultC":27649},{"code":"4000x2200","w":4000,"d":2200,"ew":4200,"ed":2400,"white":24999,"colour":30399,"upg":0,"vinyl":575,"base":1650,"ultW":25199,"ultC":30199},{"code":"3400x2800","w":3400,"d":2800,"ew":3600,"ed":3000,"white":25749,"colour":31249,"upg":0,"vinyl":625,"base":1750,"ultW":25999,"ultC":31099},{"code":"4600x2200","w":4600,"d":2200,"ew":4800,"ed":2400,"white":26599,"colour":32949,"upg":0,"vinyl":650,"base":1750,"ultW":26799,"ultC":32699},{"code":"4000x2800","w":4000,"d":2800,"ew":4200,"ed":3000,"white":27349,"colour":33999,"upg":0,"vinyl":725,"base":1850,"ultW":27699,"ultC":33849},{"code":"5200x2200","w":5200,"d":2200,"ew":5400,"ed":2400,"white":28799,"colour":35499,"upg":0,"vinyl":750,"base":1800,"ultW":28999,"ultC":35199},{"code":"4600x2800","w":4600,"d":2800,"ew":4800,"ed":3000,"white":29649,"colour":36549,"upg":0,"vinyl":825,"base":2000,"ultW":30049,"ultC":36399},{"code":"5200x2800","w":5200,"d":2800,"ew":5400,"ed":3000,"white":32749,"colour":39849,"upg":0,"vinyl":950,"base":2100,"ultW":33099,"ultC":39699},{"code":"4000x3800","w":4000,"d":3800,"ew":4200,"ed":4000,"white":30149,"colour":37399,"upg":0,"vinyl":1000,"base":2150,"ultW":30799,"ultC":37499},{"code":"5650x2800","w":5650,"d":2800,"ew":5850,"ed":3000,"white":34199,"colour":42399,"upg":0,"vinyl":1025,"base":2200,"ultW":34599,"ultC":42199},{"code":"4600x3800","w":4600,"d":3800,"ew":4800,"ed":4000,"white":32699,"colour":40199,"upg":0,"vinyl":1125,"base":2250,"ultW":33349,"ultC":40299},{"code":"5200x3800","w":5200,"d":3800,"ew":5400,"ed":4000,"white":36099,"colour":43849,"upg":0,"vinyl":1275,"base":2400,"ultW":36799,"ultC":43949},{"code":"5800x3800","w":5800,"d":3800,"ew":6000,"ed":4000,"white":37699,"colour":46649,"upg":0,"vinyl":1425,"base":2500,"ultW":38499,"ultC":46799}]},"Greenwich Pavilion":{"std":"Leka Tapco Slate (included)","upg":"none","sizes":[{"code":"2800x1900","w":2800,"d":1900,"ew":3000,"ed":2100,"white":17849,"colour":22249,"upg":0,"vinyl":350,"base":1350,"ultW":18099,"ultC":22149},{"code":"2800x2200","w":2800,"d":2200,"ew":3000,"ed":2400,"white":18649,"colour":23149,"upg":0,"vinyl":325,"base":1450,"ultW":18899,"ultC":23049},{"code":"3400x1900","w":3400,"d":1900,"ew":3600,"ed":2100,"white":20249,"colour":24949,"upg":0,"vinyl":425,"base":1550,"ultW":20549,"ultC":24899},{"code":"3400x2200","w":3400,"d":2200,"ew":3600,"ed":2400,"white":20949,"colour":25699,"upg":0,"vinyl":475,"base":1550,"ultW":21249,"ultC":25649},{"code":"4000x1900","w":4000,"d":1900,"ew":4200,"ed":2100,"white":20949,"colour":25749,"upg":0,"vinyl":500,"base":1550,"ultW":21249,"ultC":25699},{"code":"2800x2800","w":2800,"d":2800,"ew":3000,"ed":3000,"white":20249,"colour":24949,"upg":0,"vinyl":500,"base":1550,"ultW":20649,"ultC":24949},{"code":"4000x2200","w":4000,"d":2200,"ew":4200,"ed":2400,"white":22549,"colour":27499,"upg":0,"vinyl":575,"base":1650,"ultW":22899,"ultC":27499},{"code":"3400x2800","w":3400,"d":2800,"ew":3600,"ed":3000,"white":22649,"colour":27599,"upg":0,"vinyl":625,"base":1750,"ultW":23149,"ultC":27749},{"code":"4600x2200","w":4600,"d":2200,"ew":4800,"ed":2400,"white":23299,"colour":28349,"upg":0,"vinyl":650,"base":1750,"ultW":23749,"ultC":28449},{"code":"4000x2800","w":4000,"d":2800,"ew":4200,"ed":3000,"white":23949,"colour":29399,"upg":0,"vinyl":725,"base":1850,"ultW":24549,"ultC":29599},{"code":"5200x2200","w":5200,"d":2200,"ew":5400,"ed":2400,"white":25699,"colour":31049,"upg":0,"vinyl":750,"base":1800,"ultW":26149,"ultC":31099},{"code":"4600x2800","w":4600,"d":2800,"ew":4800,"ed":3000,"white":25899,"colour":31999,"upg":0,"vinyl":825,"base":2000,"ultW":26549,"ultC":32199},{"code":"5200x2800","w":5200,"d":2800,"ew":5400,"ed":3000,"white":28199,"colour":34599,"upg":0,"vinyl":950,"base":2100,"ultW":28899,"ultC":34849},{"code":"5650x2800","w":5650,"d":2800,"ew":5850,"ed":3000,"white":29699,"colour":36399,"upg":0,"vinyl":1025,"base":2200,"ultW":30449,"ultC":36649}]},"Madison Corner Hipped":{"std":"Polycarbonate","upg":"Tile Effect","sizes":[{"code":"1900x1900","w":1900,"d":1900,"ew":2100,"ed":2100,"white":12249,"colour":15859,"upg":1950,"vinyl":275,"base":1030,"ultW":14349,"ultC":17699},{"code":"2200x2200","w":2200,"d":2200,"ew":2400,"ed":2400,"white":12899,"colour":16769,"upg":2600,"vinyl":375,"base":1160,"ultW":15749,"ultC":19349},{"code":"2500x2500","w":2500,"d":2500,"ew":2700,"ed":2700,"white":14199,"colour":18069,"upg":3200,"vinyl":475,"base":1290,"ultW":17749,"ultC":21299},{"code":"2800x2800","w":2800,"d":2800,"ew":3000,"ed":3000,"white":14799,"colour":19179,"upg":4500,"vinyl":575,"base":1420,"ultW":19699,"ultC":23749},{"code":"3100x3100","w":3100,"d":3100,"ew":3300,"ed":3300,"white":16099,"colour":20739,"upg":5150,"vinyl":700,"base":1550,"ultW":21749,"ultC":26049}]},"Manhattan Pent":{"std":"Pent (standard)","upg":"none","sizes":[{"code":"2800x1900","w":2800,"d":1900,"ew":3000,"ed":2100,"white":15899,"colour":19549,"upg":0,"vinyl":350,"base":1350,"ultW":16299,"ultC":19649},{"code":"2800x2200","w":2800,"d":2200,"ew":3000,"ed":2400,"white":16749,"colour":20499,"upg":0,"vinyl":400,"base":1450,"ultW":17199,"ultC":20649},{"code":"3400x1900","w":3400,"d":1900,"ew":3600,"ed":2100,"white":17649,"colour":21649,"upg":0,"vinyl":425,"base":1550,"ultW":18149,"ultC":21849},{"code":"3400x2200","w":3400,"d":2200,"ew":3600,"ed":2400,"white":18599,"colour":22799,"upg":0,"vinyl":475,"base":1550,"ultW":19099,"ultC":22949},{"code":"4000x1900","w":4000,"d":1900,"ew":4200,"ed":2100,"white":18949,"colour":23249,"upg":0,"vinyl":500,"base":1550,"ultW":19399,"ultC":23399},{"code":"2800x2800","w":2800,"d":2800,"ew":3000,"ed":3000,"white":18299,"colour":22549,"upg":0,"vinyl":500,"base":1550,"ultW":18799,"ultC":22749},{"code":"4000x2200","w":4000,"d":2200,"ew":4200,"ed":2400,"white":19999,"colour":24549,"upg":0,"vinyl":575,"base":1650,"ultW":20549,"ultC":24749},{"code":"3400x2800","w":3400,"d":2800,"ew":3600,"ed":3000,"white":20449,"colour":25349,"upg":0,"vinyl":625,"base":1750,"ultW":21099,"ultC":25649},{"code":"4600x2200","w":4600,"d":2200,"ew":4800,"ed":2400,"white":21249,"colour":26399,"upg":0,"vinyl":650,"base":1750,"ultW":21899,"ultC":26649},{"code":"4000x2800","w":4000,"d":2800,"ew":4200,"ed":3000,"white":21849,"colour":26949,"upg":0,"vinyl":725,"base":1850,"ultW":22599,"ultC":27299},{"code":"5200x2200","w":5200,"d":2200,"ew":5400,"ed":2400,"white":22999,"colour":28549,"upg":0,"vinyl":750,"base":1800,"ultW":23649,"ultC":28749},{"code":"4600x2800","w":4600,"d":2800,"ew":4800,"ed":3000,"white":23399,"colour":29249,"upg":0,"vinyl":825,"base":2000,"ultW":24249,"ultC":29649},{"code":"5200x2800","w":5200,"d":2800,"ew":5400,"ed":3000,"white":25599,"colour":31699,"upg":0,"vinyl":950,"base":2100,"ultW":26499,"ultC":32149},{"code":"5650x2800","w":5650,"d":2800,"ew":5850,"ed":3000,"white":26849,"colour":33599,"upg":0,"vinyl":1025,"base":2200,"ultW":27799,"ultC":34049}]},"Melbourne Octagonal":{"std":"Polycarbonate","upg":"Tile Effect","sizes":[{"code":"P1200","w":null,"d":null,"ew":3097,"ed":3097,"white":14799,"colour":18699,"upg":2510,"vinyl":625,"base":1400,"ultW":17899,"ultC":21499},{"code":"P1400","w":null,"d":null,"ew":3580,"ed":3580,"white":16749,"colour":21649,"upg":2950,"vinyl":900,"base":1600,"ultW":20549,"ultC":25049},{"code":"P1600","w":null,"d":null,"ew":4063,"ed":4063,"white":19549,"colour":24749,"upg":3240,"vinyl":1125,"base":1800,"ultW":23799,"ultC":28599},{"code":"P1800","w":null,"d":null,"ew":4546,"ed":4546,"white":22599,"colour":29049,"upg":3830,"vinyl":1425,"base":2000,"ultW":27599,"ultC":33599}]},"Ramsey Corner Flat":{"std":"Flat 60mm EPDM Insulated","upg":"none","sizes":[{"code":"1900x1900","w":1900,"d":1900,"ew":2100,"ed":2100,"white":13349,"colour":16399,"upg":0,"vinyl":225,"base":1400,"ultW":13849,"ultC":16649},{"code":"2200x2200","w":2200,"d":2200,"ew":2400,"ed":2400,"white":14449,"colour":17699,"upg":0,"vinyl":325,"base":1500,"ultW":15049,"ultC":18049},{"code":"2500x2500","w":2500,"d":2500,"ew":2700,"ed":2700,"white":15599,"colour":19049,"upg":0,"vinyl":400,"base":1600,"ultW":16299,"ultC":19449},{"code":"2800x2800","w":2800,"d":2800,"ew":3000,"ed":3000,"white":16349,"colour":20349,"upg":0,"vinyl":500,"base":1700,"ultW":17149,"ultC":20849},{"code":"3100x3100","w":3100,"d":3100,"ew":3300,"ed":3300,"white":17199,"colour":21899,"upg":0,"vinyl":625,"base":1800,"ultW":18149,"ultC":22499}]},"Ramsey Corner Hipped":{"std":"Polycarbonate","upg":"Tile Effect","sizes":[{"code":"1900x1900","w":1900,"d":1900,"ew":2100,"ed":2100,"white":11199,"colour":14249,"upg":1790,"vinyl":225,"base":1400,"ultW":13499,"ultC":16349},{"code":"2200x2200","w":2200,"d":2200,"ew":2400,"ed":2400,"white":12349,"colour":15499,"upg":1790,"vinyl":325,"base":1500,"ultW":14749,"ultC":17699},{"code":"2500x2500","w":2500,"d":2500,"ew":2700,"ed":2700,"white":13499,"colour":16799,"upg":1790,"vinyl":400,"base":1600,"ultW":15999,"ultC":19049},{"code":"2800x2800","w":2800,"d":2800,"ew":3000,"ed":3000,"white":14099,"colour":18049,"upg":1900,"vinyl":500,"base":1700,"ultW":16849,"ultC":20499},{"code":"3100x3100","w":3100,"d":3100,"ew":3300,"ed":3300,"white":14699,"colour":19349,"upg":2130,"vinyl":625,"base":1800,"ultW":17799,"ultC":22099}]}};
+const COLOURS=[
+ {k:'white', name:'White', hex:'#f1f1ec', tier:'white'},
+ {k:'grey', name:'Grey', hex:'#565b5f', tier:'colour'},
+ {k:'black', name:'Black', hex:'#1c1d1f', tier:'colour'},
+ {k:'goak', name:'Golden Oak', hex:'#b07a34', tier:'colour'},
+ {k:'ioak', name:'Irish Oak', hex:'#5d4327', tier:'colour'},
+ {k:'chart', name:'Chartwell', hex:'#5b6b4f', tier:'colour'},
+];
+const gbp=n=>'£'+Math.round(n).toLocaleString('en-GB');
+function ft(mm){let inch=mm/25.4,f=Math.floor(inch/12),i=Math.round(inch-f*12);if(i===12){f++;i=0}return f+"ft"+(i?i:"")}
+let S={model:Object.keys(DATA)[0], size:0, roof:'std', colour:'white'};
+
+function models(){
+  document.getElementById('models').innerHTML=Object.keys(DATA).map(m=>
+    `<button class="mchip ${m===S.model?'on':''}" onclick="pick('${m}')">${m.replace(' Corner','').replace(' Pent','').replace(' Pavilion','').replace(' Apex','').replace(' Octagonal','').replace(' Flat',' (Flat)').replace(' Hipped',' (Hipped)')}</button>`).join('');
+}
+function pick(m){S.model=m;S.size=0;S.roof='std';S.colour='white';render()}
+function curSizes(){return DATA[S.model].sizes}
+function cur(){return curSizes()[S.size]}
+function hasUpg(){return DATA[S.model].upg!=='none' && curSizes().some(s=>s.upg>0)}
+
+function sizeGrid(){
+  const ss=curSizes();
+  const widths=[...new Set(ss.map(s=>s.w))].sort((a,b)=>a-b);
+  const depths=[...new Set(ss.map(s=>s.d))].sort((a,b)=>a-b);
+  const isCode = ss[0].w===null; // Melbourne P-codes
+  let html;
+  if(isCode){
+    html='<table class="sz"><tr>'+ss.map((s,i)=>`<td><button class="cell ${i===S.size?'on':''}" onclick="setSize(${i})">${s.code}<br>${gbp(s.white)}</button></td>`).join('')+'</tr></table>';
+  } else {
+    html='<table class="sz"><tr><td class="corner"></td>'+widths.map(w=>`<th>${(w/1000).toFixed(1)}m</th>`).join('')+'</tr>';
+    depths.forEach(d=>{
+      html+=`<tr><td class="rowlab">${(d/1000).toFixed(1)}m</td>`;
+      widths.forEach(w=>{
+        const idx=ss.findIndex(s=>s.w===w&&s.d===d);
+        if(idx<0){html+='<td><div class="cell na">–</div></td>';}
+        else{const s=ss[idx];html+=`<td><button class="cell ${idx===S.size?'on':''}" onclick="setSize(${idx})">${gbp(s.white)}</button></td>`;}
+      });
+      html+='</tr>';
+    });
+    html+='</table>';
+  }
+  document.getElementById('sizegrid').innerHTML=html;
+}
+function setSize(i){S.size=i;render()}
+
+function roofOpts(){
+  const D=DATA[S.model], el=document.getElementById('roofopts');
+  const std=D.std.replace(' (included)','').replace(' (standard)','');
+  let h=`<button class="opt ${S.roof==='std'?'on':''}" onclick="setRoof('std')">${std}<span class="sub">Standard</span></button>`;
+  if(hasUpg()){const up=cur().upg; h+=`<button class="opt ${S.roof==='upg'?'on':''}" onclick="setRoof('upg')">${D.upg}<span class="sub">+${gbp(up)}</span></button>`;}
+  el.innerHTML=h;
+}
+function setRoof(r){S.roof=r;render()}
+
+function swatches(){
+  document.getElementById('swatches').innerHTML=COLOURS.map(c=>
+    `<div class="sw ${S.colour===c.k?'on':''}" onclick="setCol('${c.k}')" title="${c.name}"><div class="dot" style="background:${c.hex}"></div><span>${c.name}</span></div>`).join('');
+}
+function setCol(k){S.colour=k;render()}
+function colTier(){return COLOURS.find(c=>c.k===S.colour).tier}
+
+function bldgPrice(){const s=cur();let p=colTier()==='white'?s.white:s.colour;if(S.roof==='upg')p+=s.upg;return p}
+function ultPrice(){const s=cur();return colTier()==='white'?s.ultW:s.ultC}
+
+function plan(){
+  const s=cur(); const svg=document.getElementById('plan');
+  const W = s.ew||3000, D = s.ed||3000;
+  const maxpx=340, pad=64;
+  const sc=maxpx/Math.max(W,D);
+  const w=W*sc, d=D*sc;
+  const x=(480-w)/2, y=(360-d)/2+6;
+  const g='#2c6b50', gold='#b9975b';
+  let el=`<rect x="0" y="0" width="480" height="360" fill="#faf8f4"/>`;
+  // subtle grid
+  for(let gx=0;gx<480;gx+=24)el+=`<line x1="${gx}" y1="0" x2="${gx}" y2="360" stroke="#eee7db" stroke-width="1"/>`;
+  for(let gy=0;gy<360;gy+=24)el+=`<line x1="0" y1="${gy}" x2="480" y2="${gy}" stroke="#eee7db" stroke-width="1"/>`;
+  // footprint
+  el+=`<rect x="${x}" y="${y}" width="${w}" height="${d}" fill="#ffffff" stroke="${g}" stroke-width="2.5" rx="3"/>`;
+  el+=`<rect x="${x}" y="${y}" width="${w}" height="${d}" fill="${g}" opacity="0.05"/>`;
+  // door (front, bottom) — a gap + swing
+  const doorW=Math.min(w*0.42,70), dx=x+w/2-doorW/2, dy=y+d;
+  el+=`<line x1="${dx}" y1="${dy}" x2="${dx+doorW}" y2="${dy}" stroke="#faf8f4" stroke-width="4"/>`;
+  el+=`<path d="M ${dx} ${dy} A ${doorW} ${doorW} 0 0 0 ${dx+doorW} ${dy}" fill="none" stroke="${gold}" stroke-width="1.4"/>`;
+  el+=`<line x1="${dx}" y1="${dy}" x2="${dx}" y2="${dy-doorW}" stroke="${gold}" stroke-width="1.4"/>`;
+  // width dim (top)
+  const ty=y-16;
+  el+=`<line x1="${x}" y1="${ty}" x2="${x+w}" y2="${ty}" stroke="${g}" stroke-width="1"/>`;
+  el+=`<line x1="${x}" y1="${ty-4}" x2="${x}" y2="${ty+4}" stroke="${g}"/><line x1="${x+w}" y1="${ty-4}" x2="${x+w}" y2="${ty+4}" stroke="${g}"/>`;
+  el+=`<text x="${x+w/2}" y="${ty-6}" text-anchor="middle" font-size="13" font-weight="700" fill="${g}">${(W/1000).toFixed(2)}m · ${ft(W)}</text>`;
+  // depth dim (left)
+  const lx=x-16;
+  el+=`<line x1="${lx}" y1="${y}" x2="${lx}" y2="${y+d}" stroke="${g}" stroke-width="1"/>`;
+  el+=`<line x1="${lx-4}" y1="${y}" x2="${lx+4}" y2="${y}" stroke="${g}"/><line x1="${lx-4}" y1="${y+d}" x2="${lx+4}" y2="${y+d}" stroke="${g}"/>`;
+  el+=`<text x="${lx-6}" y="${y+d/2}" text-anchor="middle" font-size="13" font-weight="700" fill="${g}" transform="rotate(-90 ${lx-6} ${y+d/2})">${(D/1000).toFixed(2)}m · ${ft(D)}</text>`;
+  // area label
+  el+=`<text x="${x+w/2}" y="${y+d/2}" text-anchor="middle" font-size="12" fill="${g}" opacity="0.65">${((W*D)/1e6).toFixed(1)} m²</text>`;
+  svg.innerHTML=el;
+}
+
+function render(){
+  models(); sizeGrid(); roofOpts(); swatches(); plan();
+  const s=cur(), D=DATA[S.model];
+  const W=s.ew||s.w||0, Dp=s.ed||s.d||0;
+  document.getElementById('selname').textContent=S.model;
+  const roofName=(S.roof==='upg'?D.upg:D.std.replace(' (included)','').replace(' (standard)',''));
+  const colName=COLOURS.find(c=>c.k===S.colour).name;
+  document.getElementById('selmeta').innerHTML=
+    `${(W/1000).toFixed(2)} × ${(Dp/1000).toFixed(2)} m &nbsp;·&nbsp; ${ft(W)} × ${ft(Dp)} &nbsp;·&nbsp; ${((W*Dp)/1e6).toFixed(1)} m²<br>${roofName} roof · ${colName}`;
+  document.getElementById('priceBig').innerHTML=gbp(bldgPrice())+' <small>building</small>';
+  const ult=ultPrice();
+  document.getElementById('ultbox').innerHTML=
+    `<div class="row"><span class="mut">Building (${colName}, ${roofName})</span><span>${gbp(bldgPrice())}</span></div>`+
+    `<div class="row"><span class="mut">+ Vinyl floor + concrete base, installed</span><span>included</span></div>`+
+    `<div class="row tot"><span>Ultimate Package — all-in</span><span>${gbp(ult)}</span></div>`;
+}
+render();
+function quote(){const s=cur();alert('Prototype quote\\n\\n'+S.model+'\\n'+((s.ew||s.w)/1000).toFixed(2)+' × '+((s.ed||s.d)/1000).toFixed(2)+' m\\nRoof: '+(S.roof==='upg'?DATA[S.model].upg:DATA[S.model].std)+'\\nColour: '+COLOURS.find(c=>c.k===S.colour).name+'\\n\\nBuilding: '+gbp(bldgPrice())+'\\nUltimate Package: '+gbp(ultPrice()))}
+</script></body></html>
