@@ -1,15 +1,9 @@
 <!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NGB → TGP — Pricing, Competitive & Quotes Pack</title>
-<style>*{box-sizing:border-box}html,body{margin:0;height:100%}
-body{font-family:'Segoe UI',Arial,sans-serif;background:#23272f;color:#fff;display:flex;flex-direction:column;height:100vh}
-header{padding:10px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex:0 0 auto}
-.brand{font-weight:800;color:#f0a24e;font-size:15px;margin-right:12px}
-.tab{background:#333a45;color:#dfe3e9;border:0;font-size:13px;font-weight:700;padding:8px 14px;border-radius:7px;cursor:pointer}
-.tab:hover{background:#3f4753} .tab.active{background:#f0a24e;color:#23272f}
-.stage{flex:1 1 auto;background:#e7eaee;padding:8px}
-.frame{width:100%;height:100%;border:0;background:#fff;border-radius:6px;display:none}
-.frame.show{display:block}</style></head><body>
-<header><span class="brand">NGB → TGP Pack</span><button class="tab" data-t="summary">Summary</button><button class="tab" data-t="issue">The issue</button><button class="tab active" data-t="audit">Pricing audit</button><button class="tab" data-t="compare">Competitors</button><button class="tab" data-t="quotes">Quotes & conversion</button></header>
-<div class="stage"><iframe class="frame" id="fr-summary" srcdoc="<!doctype html><html><head><meta charset=&quot;utf-8&quot;><style>
+<style>*{box-sizing:border-box}html,body{margin:0;height:100%}body{font-family:'Segoe UI',Arial,sans-serif;background:#23272f;color:#fff;display:flex;flex-direction:column;height:100vh}
+header{padding:10px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex:0 0 auto}.brand{font-weight:800;color:#f0a24e;font-size:15px;margin-right:12px}
+.tab{background:#333a45;color:#dfe3e9;border:0;font-size:13px;font-weight:700;padding:8px 14px;border-radius:7px;cursor:pointer}.tab:hover{background:#3f4753}.tab.active{background:#f0a24e;color:#23272f}
+.stage{flex:1 1 auto;background:#e7eaee;padding:8px}.frame{width:100%;height:100%;border:0;background:#fff;border-radius:6px;display:none}.frame.show{display:block}</style></head><body>
+<header><span class="brand">NGB → TGP Pack</span><button class="tab" data-t="summary">Summary</button><button class="tab" data-t="issue">The issue</button><button class="tab active" data-t="audit">Pricing audit</button><button class="tab" data-t="compare">Competitors</button><button class="tab" data-t="quotes">Quotes & conversion</button></header><div class="stage"><iframe class="frame" id="fr-summary" srcdoc="<!doctype html><html><head><meta charset=&quot;utf-8&quot;><style>
 @page{size:A4;margin:0}
 *{box-sizing:border-box} body{font-family:'Segoe UI',Arial,sans-serif;margin:0;color:#1f2430}
 .cover{height:297mm;padding:26mm 24mm;background:linear-gradient(160deg,#2b2f38,#3d4657);color:#fff;display:flex;flex-direction:column}
@@ -270,48 +264,35 @@ Once the base is levelled in and electrics excluded, <b>NGB sits mid-pack, not a
 </div></div></section>
 <div class=&quot;foot&quot;><b>Method.</b> &quot;All-in&quot; = each maker's installed price + a base allowance where they exclude it (Malvern, Crown: +£1,500 small / +£2,200 mid; NGB's own base is ~£1,290/£1,850). Install included by all except <b>Pent Haus</b> (DIY kit, shown striped, not ranked). <b>Electrics excluded from every figure</b>; &quot;Standard&quot; makers (Green Retreats, Cabin Master, Crown, eDEN) bake electrics into their quote so are if anything overstated vs NGB. Dimensions: NGB and Booths internal; others external (smaller real space). NGB prices are post-Ultimate-discount selling prices. Sources: each maker's live pricing, 22 Aug 2026.</div>
 </div></body></html>"></iframe><iframe class="frame" id="fr-quotes" srcdoc="<!doctype html><html><head><meta charset=&quot;utf-8&quot;><meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;>
-<title>NGB / Nordic — TGP Quotes &amp; Conversion</title>
-<script src=&quot;https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js&quot; integrity=&quot;sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi&quot; crossorigin=&quot;anonymous&quot;></script>
-<style>:root{color-scheme:light}*{box-sizing:border-box}
-body{margin:0;font-family:'Segoe UI',Arial,sans-serif;background:#eef1f4;color:#1f2430}
-.wrap{max-width:1150px;margin:0 auto;padding:22px}
-.mast{background:linear-gradient(135deg,#2b2f38,#3d4657);color:#fff;padding:22px 26px;border-radius:10px}
-.mast h1{margin:0;font-size:22px;color:#f0a24e;font-weight:800}
-.mast p{margin:8px 0 0;font-size:13px;color:#e7e9ee;max-width:960px;line-height:1.55}
-.cards{display:flex;gap:12px;margin:16px 0;flex-wrap:wrap}
-.card{flex:1;min-width:190px;background:#fff;border-radius:10px;padding:15px 18px;box-shadow:0 1px 3px rgba(0,0,0,.08);border-top:4px solid #4a5568}
-.card .n{font-size:21px;font-weight:800} .card .l{font-size:11.5px;color:#666;margin-top:3px;line-height:1.4}
-.card.up{border-top-color:#2f8f3e}.card.up .n{color:#2f8f3e}.card.down{border-top-color:#c0392b}.card.down .n{color:#c0392b}
-.panel{background:#fff;border-radius:10px;padding:16px 18px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,.08)}
-.panel h2{margin:0 0 10px;font-size:15px;color:#2b2f38}
+<title>NGB / Nordic — TGP Quotes &amp; Conversion</title><script src=&quot;https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js&quot; integrity=&quot;sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi&quot; crossorigin=&quot;anonymous&quot;></script>
+<style>:root{color-scheme:light}*{box-sizing:border-box}body{margin:0;font-family:'Segoe UI',Arial,sans-serif;background:#eef1f4;color:#1f2430}
+.wrap{max-width:1150px;margin:0 auto;padding:22px}.mast{background:linear-gradient(135deg,#2b2f38,#3d4657);color:#fff;padding:22px 26px;border-radius:10px}
+.mast h1{margin:0;font-size:22px;color:#f0a24e;font-weight:800}.mast p{margin:8px 0 0;font-size:13px;color:#e7e9ee;max-width:960px;line-height:1.55}
+.cards{display:flex;gap:12px;margin:16px 0;flex-wrap:wrap}.card{flex:1;min-width:190px;background:#fff;border-radius:10px;padding:15px 18px;box-shadow:0 1px 3px rgba(0,0,0,.08);border-top:4px solid #4a5568}
+.card .n{font-size:21px;font-weight:800}.card .l{font-size:11.5px;color:#666;margin-top:3px;line-height:1.4}.card.down{border-top-color:#c0392b}.card.down .n{color:#c0392b}.card.flat{border-top-color:#4a5568}
+.panel{background:#fff;border-radius:10px;padding:16px 18px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,.08)}.panel h2{margin:0 0 10px;font-size:15px;color:#2b2f38}
 table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid #e6e6e6;padding:7px 10px;text-align:right}th:first-child,td:first-child{text-align:left}thead th{background:#4a4a4a;color:#fff}
-.big{background:#2f2f2f;color:#fff;border-radius:10px;padding:15px 18px;font-size:13.5px;line-height:1.65;margin:16px 0}.big b{color:#f0a24e}
-.note{font-size:11px;color:#777;margin-top:8px;line-height:1.5}canvas{max-height:300px}
+.big{background:#2f2f2f;color:#fff;border-radius:10px;padding:15px 18px;font-size:13.5px;line-height:1.65;margin:16px 0}.big b{color:#f0a24e}.note{font-size:11px;color:#777;margin-top:8px;line-height:1.5}canvas{max-height:300px}
 </style></head><body><div class=&quot;wrap&quot;>
 <div class=&quot;mast&quot;><h1>NGB / Nordic — TGP Quotes &amp;amp; Conversion</h1>
-<p>Source of truth: the Mint all-time quote export (NGB only). Deduped to <b>one quote per customer per year — their lowest-value quote</b>. Sales from the NGB MASTER ledger. Like-for-like uses <b>Jan–Aug</b> (both years complete to end August 2026).</p></div>
+<p>Source of truth: the Mint all-time quote export (NGB only). Unique customers counted <b>within each period</b> (deduped to each customer's lowest quote). Sales from the NGB MASTER ledger. Verified against Justin's own Excel dedupe: Jan–Aug 2025 = 827 (exact match).</p></div>
 <div class=&quot;cards&quot;>
-<div class=&quot;card&quot;><div class=&quot;n&quot;>1,110</div><div class=&quot;l&quot;>2025 unique customers<br>£18,802,010 quoted (lowest-quote basis)</div></div>
-<div class=&quot;card&quot;><div class=&quot;n&quot;>725</div><div class=&quot;l&quot;>2026 Jan–Aug customers<br>£14,602,468 quoted</div></div>
-<div class=&quot;card&quot;><div class=&quot;n&quot;>799 → 725</div><div class=&quot;l&quot;>Jan–Aug quotes<br><b>-9%</b> · value +11%</div></div>
-<div class=&quot;card down&quot;><div class=&quot;n&quot;>29.0% → 14.2%</div><div class=&quot;l&quot;>Jan–Aug conversion<br><b>~halved</b> (sales 232 → 103)</div></div>
+<div class=&quot;card&quot;><div class=&quot;n&quot;>827 → 726</div><div class=&quot;l&quot;>Jan–Aug unique customers quoted<br><b>−12%</b></div></div>
+<div class=&quot;card flat&quot;><div class=&quot;n&quot;>£13,651,601 → £14,623,968</div><div class=&quot;l&quot;>Jan–Aug quote value<br><b>+7%</b> (avg quote +22%)</div></div>
+<div class=&quot;card down&quot;><div class=&quot;n&quot;>232 → 103</div><div class=&quot;l&quot;>Jan–Aug units sold<br><b>−56%</b></div></div>
+<div class=&quot;card down&quot;><div class=&quot;n&quot;>28.1% → 14.2%</div><div class=&quot;l&quot;>Jan–Aug conversion<br><b>~halved</b></div></div>
 </div>
-<div class=&quot;big&quot;>On the Mint source of truth (Jan–Aug), unique customers quoted are down modestly (<b>799 → 725, -9%</b>) while quote value is <b>up +11%</b> (average quote £16,443 → £20,141, the price rises landing). Yet sales <b>halved (232 → 103)</b>, so conversion fell <b>29.0% → 14.2%</b>. The loss is overwhelmingly at the close, not the quote.</div>
+<div class=&quot;big&quot;>Like-for-like <b>Jan–Aug</b>: unique customers quoted are down modestly (<b>827 → 726</b>) and quote value is <b>up</b> — yet sales <b>more than halved (232 → 103)</b>, so conversion fell <b>28.1% → 14.2%</b>. On <b>Jan–May</b> it's starker still: customers essentially <b>flat (517 → 516)</b>, quote value <b>+24%</b>, sales <b>−51%</b>, conversion <b>29.0% → 14.1%</b>. Demand and quote values are holding; the loss is at the close — a mix of price at the decision point, sales-floor conversion and marketing, not a single lever.</div>
 <div class=&quot;panel&quot;><h2>Unique customers quoted — by year</h2><canvas id=&quot;c1&quot;></canvas></div>
-<div class=&quot;panel&quot;><h2>Quote value — by year (£, lowest-quote basis)</h2><canvas id=&quot;c2&quot;></canvas></div>
+<div class=&quot;panel&quot;><h2>Quote value — by year (£)</h2><canvas id=&quot;c2&quot;></canvas></div>
 <div class=&quot;panel&quot;><h2>Unique customers by month — 2025 vs 2026</h2><canvas id=&quot;c3&quot;></canvas>
-<div class=&quot;note&quot;>2026 shown Jan–Aug (export runs to early Sep 2026). Deduped to each customer's lowest quote per year.</div></div>
-<div class=&quot;panel&quot;><h2>Summary</h2><table><thead><tr><th>Year</th><th>Unique customers</th><th>Quote value £ (lowest)</th></tr></thead><tbody>
+<div class=&quot;note&quot;>Each customer counted once per month (their lowest quote). 2026 to early Sep. Monthly figures sum higher than a period total because a customer active in two months counts in each.</div></div>
+<div class=&quot;panel&quot;><h2>Summary — unique customers &amp;amp; quote value by year</h2><table><thead><tr><th>Year</th><th>Unique customers</th><th>Quote value £</th></tr></thead><tbody>
 <tr><td>2021</td><td>93</td><td>1,286,005</td></tr><tr><td>2022</td><td>918</td><td>14,407,699</td></tr><tr><td>2023</td><td>825</td><td>12,716,630</td></tr><tr><td>2024</td><td>939</td><td>14,322,279</td></tr><tr><td>2025</td><td>1,110</td><td>18,802,010</td></tr><tr><td>2026</td><td>729</td><td>14,689,015</td></tr>
-</tbody></table><div class=&quot;note&quot;>2021 and 2026 are partial years (Oct-start 2021; to early Sep 2026). Raw quotes before dedupe: 2025 = 2068.</div></div>
-<script>
-const MON=[&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;, &quot;Apr&quot;, &quot;May&quot;, &quot;Jun&quot;, &quot;Jul&quot;, &quot;Aug&quot;, &quot;Sep&quot;, &quot;Oct&quot;, &quot;Nov&quot;, &quot;Dec&quot;];
+</tbody></table><div class=&quot;note&quot;>2021 partial (Oct start); 2026 to early Sep. Deduped to each customer's lowest quote within the year.</div></div>
+<script>const MON=[&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;, &quot;Apr&quot;, &quot;May&quot;, &quot;Jun&quot;, &quot;Jul&quot;, &quot;Aug&quot;, &quot;Sep&quot;, &quot;Oct&quot;, &quot;Nov&quot;, &quot;Dec&quot;];
 new Chart(c1,{type:'bar',data:{labels:[&quot;2021&quot;, &quot;2022&quot;, &quot;2023&quot;, &quot;2024&quot;, &quot;2025&quot;, &quot;2026&quot;],datasets:[{label:'Customers',data:[93, 918, 825, 939, 1110, 729],backgroundColor:'#3d4657'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}});
 new Chart(c2,{type:'bar',data:{labels:[&quot;2021&quot;, &quot;2022&quot;, &quot;2023&quot;, &quot;2024&quot;, &quot;2025&quot;, &quot;2026&quot;],datasets:[{label:'Value',data:[1286005, 14407699, 12716630, 14322279, 18802010, 14689015],backgroundColor:'#c8792f'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{callback:v=>'£'+(v/1e6)+'m'}}}}});
-new Chart(c3,{type:'bar',data:{labels:MON,datasets:[{label:'2025',data:[69, 81, 120, 122, 75, 137, 90, 105, 101, 81, 85, 44],backgroundColor:'#9aa6b2'},{label:'2026',data:[110, 56, 112, 115, 66, 151, 52, 63, null, null, null, null],backgroundColor:'#e0952f'}]},options:{responsive:true,maintainAspectRatio:false}});
+new Chart(c3,{type:'bar',data:{labels:MON,datasets:[{label:'2025',data:[73, 98, 140, 140, 112, 164, 117, 129, 145, 97, 103, 49],backgroundColor:'#9aa6b2'},{label:'2026',data:[121, 79, 143, 152, 90, 166, 57, 67, null, null, null, null],backgroundColor:'#e0952f'}]},options:{responsive:true,maintainAspectRatio:false}});
 </script></div></body></html>"></iframe></div>
-<script>
-const btns=[...document.querySelectorAll('.tab')];
-btns.forEach(b=>b.addEventListener('click',()=>{btns.forEach(x=>x.classList.remove('active'));b.classList.add('active');
-document.querySelectorAll('.frame').forEach(f=>f.classList.remove('show'));document.getElementById('fr-'+b.dataset.t).classList.add('show');}));
-</script></body></html>
+<script>const b=[...document.querySelectorAll('.tab')];b.forEach(x=>x.addEventListener('click',()=>{b.forEach(z=>z.classList.remove('active'));x.classList.add('active');document.querySelectorAll('.frame').forEach(f=>f.classList.remove('show'));document.getElementById('fr-'+x.dataset.t).classList.add('show');}));</script></body></html>
