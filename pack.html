@@ -3,7 +3,7 @@
 header{padding:10px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex:0 0 auto}.brand{font-weight:800;color:#f0a24e;font-size:15px;margin-right:12px}
 .tab{background:#333a45;color:#dfe3e9;border:0;font-size:13px;font-weight:700;padding:8px 14px;border-radius:7px;cursor:pointer}.tab:hover{background:#3f4753}.tab.active{background:#f0a24e;color:#23272f}
 .stage{flex:1 1 auto;background:#e7eaee;padding:8px}.frame{width:100%;height:100%;border:0;background:#fff;border-radius:6px;display:none}.frame.show{display:block}</style></head><body>
-<header><span class="brand">NGB → TGP Pack</span><button class="tab" data-t="summary">Summary</button><button class="tab" data-t="issue">The issue</button><button class="tab active" data-t="audit">Pricing audit</button><button class="tab" data-t="compare">Competitors</button><button class="tab" data-t="quotes">Quotes & conversion</button></header><div class="stage"><iframe class="frame" id="fr-summary" srcdoc="<!doctype html><html><head><meta charset=&quot;utf-8&quot;><style>
+<header><span class="brand">NGB → TGP Pack</span><button class="tab" data-t="summary">Summary</button><button class="tab active" data-t="issue">The issue</button><button class="tab" data-t="audit">Pricing audit</button><button class="tab" data-t="compare">Competitors</button><button class="tab" data-t="quotes">Quotes & conversion</button></header><div class="stage"><iframe class="frame" id="fr-summary" srcdoc="<!doctype html><html><head><meta charset=&quot;utf-8&quot;><style>
 @page{size:A4;margin:0}
 *{box-sizing:border-box} body{font-family:'Segoe UI',Arial,sans-serif;margin:0;color:#1f2430}
 .cover{height:297mm;padding:26mm 24mm;background:linear-gradient(160deg,#2b2f38,#3d4657);color:#fff;display:flex;flex-direction:column}
@@ -30,29 +30,54 @@ header{padding:10px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;
 
 <div class=&quot;meta&quot;>Sources: Nordic 2023 brochure · Nordic 1 July 2026 price list · each competitor's live pricing page (links in Section B) · NGB order data Jan–Jun 2026. Competitor figures independently re-verified 22 Aug 2026; SMART Garden Offices excluded (prices unverifiable). Base allowance +£1,500 (small) / +£2,200 (mid) added where a maker excludes it; electrics excluded from all figures.</div>
 </div></body></html>
-"></iframe><iframe class="frame" id="fr-issue" srcdoc="<!doctype html><html><head><meta charset=&quot;utf-8&quot;><style>
-@page{size:A4;margin:22mm 22mm}
-*{box-sizing:border-box} body{font-family:'Segoe UI',Arial,sans-serif;color:#20242c;margin:0;font-size:13.5px;line-height:1.75}
-h1{font-size:22px;color:#c8792f;margin:0 0 2px;font-weight:800}
-.tag{font-size:12px;color:#8a8f99;margin-bottom:22px}
-.lead{background:#fbf3e7;border-left:5px solid #e08a2c;border-radius:6px;padding:16px 20px;font-size:15px;font-weight:600;color:#5a4522;line-height:1.6;margin-bottom:22px}
-p{margin:0 0 16px}
-.kick{font-weight:800;color:#c0392b}
-.ask{background:#2f2f2f;color:#fff;border-radius:8px;padding:16px 20px;margin-top:8px;font-size:13.5px;line-height:1.65}
-.ask b{color:#f0a24e}
-</style></head><body>
-<h1>The core issue: a marketing problem, not a pricing problem</h1>
-<div class=&quot;tag&quot;>NGB → TGP · opening statement · August 2026</div>
+"></iframe><iframe class="frame show" id="fr-issue" srcdoc="<!doctype html><html><head><meta charset=&quot;utf-8&quot;><style>
+:root{color-scheme:light}*{box-sizing:border-box}body{font-family:'Segoe UI',Arial,sans-serif;margin:0;color:#20242c;font-size:13.5px;line-height:1.7;background:#fff}
+.wrap{max-width:900px;margin:0 auto;padding:26px 30px}
+h1{font-size:21px;color:#c8792f;margin:0 0 2px;font-weight:800}
+.tag{font-size:12px;color:#8a8f99;margin-bottom:18px}
+h2{font-size:13px;letter-spacing:.4px;text-transform:uppercase;color:#2b2f38;margin:20px 0 6px}
+table{border-collapse:collapse;width:100%;font-size:13px;margin:8px 0}
+th,td{border:1px solid #e6e6e6;padding:6px 10px;text-align:right}th:first-child,td:first-child{text-align:left}
+thead th{background:#3d4657;color:#fff}
+.lead{background:#fbf3e7;border-left:5px solid #e08a2c;border-radius:6px;padding:14px 18px;font-size:14px;font-weight:600;color:#5a4522;line-height:1.6;margin-bottom:16px}
+ul{margin:6px 0 0;padding-left:20px}li{margin:4px 0}
+.ask{background:#2f2f2f;color:#fff;border-radius:8px;padding:15px 18px;margin-top:14px;font-size:13.5px;line-height:1.65}.ask b{color:#f0a24e}
+.src{font-size:11px;color:#8a8f99;margin-top:14px}
+</style></head><body><div class=&quot;wrap&quot;>
+<h1>The issue: fewer quotes, and a sharp fall in conversion</h1>
+<div class=&quot;tag&quot;>NGB &amp;rarr; TGP &amp;middot; opening statement &amp;middot; figures from the Mint quote export (NGB only) + NGB sales ledger</div>
 
-<div class=&quot;lead&quot;>Sales are down ~50% on 2025. The evidence says this is a demand and promotion failure — not customers rejecting our prices — and it began the moment TGP stopped actively marketing NGB.</div>
+<div class=&quot;lead&quot;>Demand at the quote stage is broadly holding and quote values are up &amp;mdash; yet units sold have more than halved. The loss is happening at the <b>close</b>, not the quote.</div>
 
-<p>Our quote data makes the cause clear. The <b>value</b> of the quotes being generated is in line with 2025 — the customers who reach a quote are <b>not</b> being put off by price. What has fallen is the <b>number</b> of quotes and the <b>conversion</b> of those quotes into orders. That is a top-of-funnel and sales-effort problem: fewer people are being brought to the table, and fewer of those are being closed. It coincides precisely with TGP ceasing to actively market NGB from <span class=&quot;kick&quot;>November 2025</span>. A price cut does not fix a marketing withdrawal — it simply gives away margin on the smaller number of sales still coming through.</p>
+<h2>What the data shows (like-for-like, deduped to one quote per customer within each period)</h2>
+<table><thead><tr><th>Jan&amp;ndash;Aug</th><th>2025</th><th>2026</th><th>Change</th></tr></thead><tbody>
+<tr><td>Unique customers quoted</td><td>827</td><td>726</td><td>&amp;minus;12%</td></tr>
+<tr><td>Quote value (lowest-quote basis)</td><td>&amp;pound;13.65m</td><td>&amp;pound;14.62m</td><td>+7%</td></tr>
+<tr><td>Average quote value</td><td>&amp;pound;16,507</td><td>&amp;pound;20,143</td><td>+22%</td></tr>
+<tr><td>Units sold (ledger)</td><td>232</td><td>103</td><td>&amp;minus;56%</td></tr>
+<tr><td>Conversion (sales &amp;divide; quotes)</td><td>28.1%</td><td>14.2%</td><td>~halved</td></tr>
+</tbody></table>
+<p style=&quot;margin:4px 0 0;font-size:12px;color:#666&quot;>On <b>Jan&amp;ndash;May</b> (both months fully mature) it is starker: unique customers essentially <b>flat (517 &amp;rarr; 516)</b>, quote value <b>+24%</b>, sales <b>&amp;minus;51% (150 &amp;rarr; 73)</b>, conversion <b>29.0% &amp;rarr; 14.1%</b>.</p>
 
-<p>The two analyses in this pack remove any doubt that price is the cause. The <b>pricing audit</b> shows our whole range can be rebased to a fair 2023&amp;nbsp;+&amp;nbsp;17.5% on a <b>revenue-neutral basis (−0.8% overall)</b> — it corrects historic inconsistency rather than raising prices. (Our costs actually rose 27.5% since 2023, but the 10% surcharge added on 1&amp;nbsp;July&amp;nbsp;2026 is being lifted by our suppliers, so 17.5% is the sustainable level.) The <b>competitor comparison</b>, with every figure verified against each rival's own published price on a true installed-plus-base footing, shows NGB sits <b>mid-pack</b> — cheaper than eDEN and premium Crown, and undercut only by budget timber makers. TGP's &quot;too expensive&quot; claim is not supported by the market.</p>
+<h2>Read</h2>
+<ul>
+<li><b>Quoting demand is broadly intact.</b> Slightly fewer customers are being quoted (flat on Jan&amp;ndash;May, &amp;minus;12% on Jan&amp;ndash;Aug), and they are being quoted at <b>higher values</b> (average quote +22%, as the price rises land). Marketing is weaker than 2025 but still bringing customers to a quote.</li>
+<li><b>The collapse is in conversion.</b> Sales have fallen far faster than quotes &amp;mdash; conversion has roughly halved. This is where the business is being lost.</li>
+</ul>
 
-<div class=&quot;ask&quot;>The conclusion is straightforward: <b>TGP has not upheld its side of the arrangement — to actively promote NGB</b> — and that, not our pricing, is what has halved sales. The route back to volume is TGP <b>restarting the marketing and show-site prominence it committed to</b>, alongside correcting the pricing imbalance detailed in the following pages. The pricing evidence is here to close off the &quot;too expensive&quot; argument; the real fix is promotion.</div>
-</body></html>
-"></iframe><iframe class="frame show" id="fr-audit" srcdoc="<!doctype html><html><head><meta charset=&quot;utf-8&quot;><title>NGB — 2023 vs +17.5% vs current TGP</title>
+<h2>Why conversion has fallen &amp;mdash; all plausible, none isolated by the data</h2>
+<ul>
+<li><b>Price at the decision point.</b> Prices are up since 2023; a customer can accept a quote at the higher figure and still not proceed because it is too dear. That shows exactly as steady/higher quote values with lower conversion &amp;mdash; the pattern we see. Price is not ruled out.</li>
+<li><b>Sales capability &amp;amp; closing.</b> Fewer quotes turning into orders can reflect follow-up, objection-handling and closing skill at the show sites &amp;mdash; a sales-training and process question.</li>
+<li><b>Marketing &amp;amp; support.</b> Thinner NGB promotion lowers both quote volume and the warmth of leads at close.</li>
+<li><b>Product steering.</b> Where a site also sells a rival, NGB quotes may be losing at the decision point.</li>
+</ul>
+
+<div class=&quot;ask&quot;><b>Response:</b> correct the price list to a fair, consistent <b>2023&amp;nbsp;+&amp;nbsp;17.5%</b> (broadly revenue-neutral &amp;mdash; fixes historic inconsistency and keeps NGB competitive, per the Competitors tab), <b>and</b> invest in sales conversion (training, follow-up, closing) where the largest loss sits, <b>and</b> rebuild NGB marketing to lift quote volume. It is not one lever &amp;mdash; price, selling and marketing together.</div>
+
+<div class=&quot;src&quot;>Figures verified against Justin's own Excel dedupe (Jan&amp;ndash;Aug 2025 = 827, exact match). Quotes deduped within each period to each customer's lowest quote. Sales are actual units from the NGB MASTER ledger. Conversion is an aggregate ratio (sales &amp;divide; quotes by period), and recent-month conversion is slightly understated as those quotes have not all matured into sales yet.</div>
+</div></body></html>
+"></iframe><iframe class="frame" id="fr-audit" srcdoc="<!doctype html><html><head><meta charset=&quot;utf-8&quot;><title>NGB — 2023 vs +17.5% vs current TGP</title>
 <style>
 *{box-sizing:border-box} body{font-family:'Segoe UI',Arial,sans-serif;margin:0;background:#f4f2ee;color:#222;font-size:12px}
 .wrap{max-width:1600px;margin:0 auto;padding:20px}
