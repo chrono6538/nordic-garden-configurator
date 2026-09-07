@@ -78,6 +78,12 @@ h1{font-size:38px;color:#c8792f;margin:0 0 6px;font-weight:800;letter-spacing:.3
 .kpi .l b{color:#1b1f27}
 .note{font-size:16px;color:#67707e;margin:0 0 26px;padding-left:2px}
 .note b{color:#c8792f}
+.callwrap{display:flex;justify-content:flex-end;margin:12px 0 2px}
+.callout{position:relative;max-width:560px;background:#fff8ef;border:2px solid #c8792f;border-radius:12px;padding:13px 18px;font-size:15px;line-height:1.5;color:#5a4522;box-shadow:0 3px 8px rgba(0,0,0,.10)}
+.callout:before{content:&quot;&quot;;position:absolute;top:-13px;right:66px;border-left:13px solid transparent;border-right:13px solid transparent;border-bottom:13px solid #c8792f}
+.callout:after{content:&quot;&quot;;position:absolute;top:-10px;right:68px;border-left:11px solid transparent;border-right:11px solid transparent;border-bottom:11px solid #fff8ef}
+.callout b{color:#c8792f}
+.callout .h{font-weight:800;color:#c8792f;font-size:13px;text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:4px}
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .card{background:#fff;border-radius:12px;padding:20px 24px;box-shadow:0 1px 3px rgba(0,0,0,.07)}
 .card h2{font-size:20px;margin:0 0 12px;color:#2b2f38;font-weight:800;text-transform:uppercase;letter-spacing:.4px}
@@ -98,6 +104,7 @@ b{color:#1b1f27}
 <div class=&quot;kpi&quot;><div class=&quot;n&quot;>−56%</div><div class=&quot;l&quot;>Units sold<br><b>232 → 103</b></div></div>
 <div class=&quot;kpi&quot;><div class=&quot;n&quot;>28→14%</div><div class=&quot;l&quot;>Conversion<br><b>roughly halved</b></div></div>
 </div>
+<div class=&quot;callwrap&quot;><div class=&quot;callout&quot;><span class=&quot;h&quot;>Why 14% is the true rate</span>Earlier figures <b>under-counted conversion</b>. The same quote often re-entered the system in a later month — e.g. when a customer asked for a change — and got counted twice, inflating the quote numbers. AI spotted these repeat patterns and <b>cleaned the whole dataset so each customer is counted once</b> — giving the accurate conversion shown here.</div></div>
 <div class=&quot;cols&quot;>
 <div class=&quot;card&quot;><h2>What the data says</h2>
 <ul>
