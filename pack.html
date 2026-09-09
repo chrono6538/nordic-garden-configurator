@@ -338,58 +338,71 @@ tr.ngb{background:#fdf3e6} tr.ngb .tot{color:#c07d20} .vs{font-weight:800;font-s
 body{font-family:'Segoe UI',Arial,sans-serif;margin:0;color:#1b1f27;background:#f4f6f9;font-size:16px;line-height:1.5}
 .wrap{max-width:1000px;margin:0 auto;padding:26px 34px 44px}
 h1{font-size:30px;color:#c8792f;margin:0 0 2px;font-weight:800}
-.sub{font-size:16px;color:#7a808c;margin-bottom:8px}
-.base{display:inline-block;background:#23303f;color:#fff;border-radius:8px;padding:8px 16px;font-size:17px;font-weight:700;margin-bottom:20px}
-.base b{color:#f0a24e}
+.sub{font-size:16px;color:#7a808c;margin-bottom:12px}
+.baserow{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.base{display:inline-block;border-radius:8px;padding:8px 16px;font-size:16px;font-weight:700}
+.base.a{background:#23303f;color:#fff}.base.a b{color:#f0a24e}
+.base.b{background:#1f5a34;color:#fff}.base.b b{color:#8fe0a6}
+.eqnote{font-size:13px;color:#8a8f99;margin:2px 0 18px}
+.vh{font-size:20px;font-weight:800;margin:24px 0 8px;padding:8px 14px;border-radius:8px;color:#fff}
+.vh.a{background:#23303f}.vh.b{background:#1f5a34}
 table.cmp{border-collapse:collapse;width:100%;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08)}
-.cmp th,.cmp td{padding:14px 18px;text-align:right;border-bottom:1px solid #eef1f4}
-.cmp thead th{background:#3d4657;color:#fff;font-size:16px;font-weight:800;vertical-align:top}
-.cmp thead th small{display:block;font-weight:500;font-size:12.5px;color:#c9cfd8;margin-top:3px}
-.cmp th.lab,.cmp td.lab{text-align:left;font-weight:700;color:#2b2f38;font-size:16px}
-.cmp td{font-size:19px;font-weight:700;color:#1b1f27}
+.cmp th,.cmp td{padding:13px 18px;text-align:right;border-bottom:1px solid #eef1f4}
+.cmp thead th{background:#3d4657;color:#fff;font-size:15px;font-weight:800;vertical-align:top}
+.cmp thead th small{display:block;font-weight:500;font-size:12px;color:#c9cfd8;margin-top:3px}
+.cmp th.lab,.cmp td.lab{text-align:left;font-weight:700;color:#2b2f38;font-size:15px}
+.cmp td{font-size:18px;font-weight:700}
 .cmp .optB{background:#fbf6ee}
 .cmp thead th.optB{background:#c8792f}
 .cmp thead th.diff{background:#2c7a44}
-.cmp td.diff{color:#2c7a44;font-weight:800;font-size:18px}
-.cmp td.diff.neg{color:#b0442f}
-tr.net td{background:#eaf5ee}tr.net td.lab{color:#1f8a4c}tr.net td{font-size:22px;font-weight:800}
+.cmp td.diff{color:#2c7a44;font-weight:800}.cmp td.diff.neg{color:#b0442f}
+tr.net td{background:#eaf5ee}tr.net td.lab{color:#1f8a4c}tr.net td{font-size:21px;font-weight:800}
 tr.net td.optB{background:#dff0e6}
-tr.pays td{background:#f3f5f8}
-.small{font-size:13px;color:#8a8f99}
-.verdict{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0 8px}
-.vc{background:#fff;border-radius:12px;padding:18px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.08);border-top:6px solid #1f8a4c}
-.vc .n{font-size:34px;font-weight:800;color:#1f8a4c;line-height:1}
-.vc .l{font-size:14px;color:#67707e;margin-top:8px;font-weight:600}
-.win{background:#1f8a4c;color:#fff;border-radius:10px;padding:14px 20px;font-size:18px;font-weight:800;margin-top:6px;text-align:center}
+.small{font-size:12px;color:#8a8f99}
+.win{background:#1f8a4c;color:#fff;border-radius:10px;padding:12px 18px;font-size:16px;font-weight:800;margin-top:10px;text-align:center}
 .note{font-size:13px;color:#8a8f99;margin-top:16px;line-height:1.6}
 </style></head><body><div class=&quot;wrap&quot;>
-<h1>Offer model — two ways to sell the same building</h1>
+<h1>Offer model — two ways to sell, on both pricing plans</h1>
 <div class=&quot;sub&quot;>Madison 2500 · grey (colour) · tiled roof · figures per unit</div>
-<div class=&quot;base&quot;>Baseline new price (2023 +10% then +7.5%): <b>£20,753</b></div>
+<div class=&quot;baserow&quot;>
+<span class=&quot;base a&quot;>Plan A price: <b>£20,753</b></span>
+<span class=&quot;base b&quot;>Plan B price: <b>£20,753</b></span>
+</div>
+<div class=&quot;eqnote&quot;>For this model the two plans give the <b>same</b> £20,753 — the Madison 2500 (grey/tile) comes <b>down</b> to target under both, so Plan B's &quot;small rise → £50 cut&quot; rule doesn't change it. The offer economics below are therefore identical; the two versions diverge only for models Plan B converts from a sub-4% rise into a £50 cut.</div>
 
+<div class=&quot;vh a&quot;>VERSION 1 · on the Plan A price (£20,753)</div>
 <table class=&quot;cmp&quot;><thead><tr>
 <th class=&quot;lab&quot;>Per unit</th>
 <th>Option A<small>15% discount · base included</small></th>
 <th class=&quot;optB&quot;>Option B<small>10% discount + FREE BASE (£1,500)</small></th>
 <th class=&quot;diff&quot;>B vs A</th>
 </tr></thead><tbody>
-<tr class=&quot;pays&quot;><td class=&quot;lab&quot;>Customer pays</td><td>£17,640</td><td class=&quot;optB&quot;>£18,678</td><td class=&quot;diff neg&quot;>+£1,038</td></tr>
+<tr><td class=&quot;lab&quot;>Customer pays</td><td>£17,640</td><td class=&quot;optB&quot;>£18,678</td><td class=&quot;diff neg&quot;>+£1,038</td></tr>
 <tr><td class=&quot;lab&quot;>TGP commission (31%)</td><td>£5,220</td><td class=&quot;optB&quot;>£5,542</td><td class=&quot;diff&quot;>+£322</td></tr>
 <tr><td class=&quot;lab&quot;>NGB receives</td><td>£12,420</td><td class=&quot;optB&quot;>£13,136</td><td class=&quot;diff&quot;>+£716</td></tr>
 <tr><td class=&quot;lab&quot;>Base cost to NGB</td><td>−£700</td><td class=&quot;optB&quot;>−£700</td><td class=&quot;diff&quot;>£0</td></tr>
 <tr class=&quot;net&quot;><td class=&quot;lab&quot;>NGB NET</td><td>£11,720</td><td class=&quot;optB&quot;>£12,436</td><td class=&quot;diff&quot;>+£716</td></tr>
-<tr><td class=&quot;lab&quot;>Customer value / saving</td><td>£3,113<div class=&quot;small&quot;>15% off</div></td><td class=&quot;optB&quot;>£3,575<div class=&quot;small&quot;>10% off + £1,500 base</div></td><td class=&quot;diff&quot;>+£462</td></tr>
+<tr><td class=&quot;lab&quot;>Customer value</td><td>£3,113<div class=&quot;small&quot;>15% off</div></td><td class=&quot;optB&quot;>£3,575<div class=&quot;small&quot;>10% off + £1,500 base</div></td><td class=&quot;diff&quot;>+£462</td></tr>
 </tbody></table>
 
-<div class=&quot;verdict&quot;>
-<div class=&quot;vc&quot;><div class=&quot;n&quot;>+£716</div><div class=&quot;l&quot;>NGB net per unit<br>(Option B)</div></div>
-<div class=&quot;vc&quot;><div class=&quot;n&quot;>+£322</div><div class=&quot;l&quot;>TGP commission<br>(Option B)</div></div>
-<div class=&quot;vc&quot;><div class=&quot;n&quot;>+£462</div><div class=&quot;l&quot;>Customer value<br>(Option B)</div></div>
-</div>
-<div class=&quot;win&quot;>Option B wins for all three — NGB keeps more, TGP earns more, and the customer gets a stronger, concrete offer.</div>
+<div class=&quot;vh b&quot;>VERSION 2 · on the Plan B price (£20,753)</div>
+<table class=&quot;cmp&quot;><thead><tr>
+<th class=&quot;lab&quot;>Per unit</th>
+<th>Option A<small>15% discount · base included</small></th>
+<th class=&quot;optB&quot;>Option B<small>10% discount + FREE BASE (£1,500)</small></th>
+<th class=&quot;diff&quot;>B vs A</th>
+</tr></thead><tbody>
+<tr><td class=&quot;lab&quot;>Customer pays</td><td>£17,640</td><td class=&quot;optB&quot;>£18,678</td><td class=&quot;diff neg&quot;>+£1,038</td></tr>
+<tr><td class=&quot;lab&quot;>TGP commission (31%)</td><td>£5,220</td><td class=&quot;optB&quot;>£5,542</td><td class=&quot;diff&quot;>+£322</td></tr>
+<tr><td class=&quot;lab&quot;>NGB receives</td><td>£12,420</td><td class=&quot;optB&quot;>£13,136</td><td class=&quot;diff&quot;>+£716</td></tr>
+<tr><td class=&quot;lab&quot;>Base cost to NGB</td><td>−£700</td><td class=&quot;optB&quot;>−£700</td><td class=&quot;diff&quot;>£0</td></tr>
+<tr class=&quot;net&quot;><td class=&quot;lab&quot;>NGB NET</td><td>£11,720</td><td class=&quot;optB&quot;>£12,436</td><td class=&quot;diff&quot;>+£716</td></tr>
+<tr><td class=&quot;lab&quot;>Customer value</td><td>£3,113<div class=&quot;small&quot;>15% off</div></td><td class=&quot;optB&quot;>£3,575<div class=&quot;small&quot;>10% off + £1,500 base</div></td><td class=&quot;diff&quot;>+£462</td></tr>
+</tbody></table>
 
-<div class=&quot;note&quot;><b>Why B works:</b> the smaller 10% discount leaves a higher price for TGP to earn commission on, and the &quot;free base&quot; is worth £1,500 to the customer but only costs NGB £700 (the price already carries £800 toward the base). Because competitors don't bundle a base, pricing it as a free offer stops that £1,500 quietly overpricing NGB on the shelf.<br><br>
-<b>Assumptions:</b> TGP 31% commission is charged on the discounted price, with the £800 base component excluded (the 31%-on-£800 now removed — worth ~£248/unit to NGB). Base costs £1,500; £800 is built into the price so NGB's real base spend is £700 either way. VAT not split out. Figures per unit for the Madison 2500 grey / tiled roof.</div>
+<div class=&quot;win&quot;>On either plan, Option B (10% + free base) wins for all three — NGB +£716, TGP +£322, customer +£462 value.</div>
+
+<div class=&quot;note&quot;><b>Assumptions:</b> TGP 31% commission charged on the discounted price, £800 base component excluded (the 31%-on-£800 now removed — worth ~£248/unit to NGB). Base costs £1,500; £800 built into the price, so NGB's real base spend is £700 either way. VAT not split. Plan A = straight to 2023 +10%+7.5% target. Plan B = same, but recommended rises of ≤4% become a £50 cut; the Madison 2500 grey/tile is a cut-to-target line so both plans price it at £20,753. Tell me a model that Plan B turns from a small rise into a cut and I'll show a version where the two visibly differ.</div>
 </div></body></html>
 "></iframe><iframe class="frame" id="fr-quotes" srcdoc="<!doctype html><html><head><meta charset=&quot;utf-8&quot;><meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;>
 <title>NGB / Nordic — TGP Quotes &amp; Conversion</title><script src=&quot;https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js&quot; integrity=&quot;sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi&quot; crossorigin=&quot;anonymous&quot;></script>
